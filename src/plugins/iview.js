@@ -1,5 +1,26 @@
 import Vue from 'vue'
-import { Button, Layout, Header, Menu, MenuItem, Sider, Input, Icon, Submenu, Row, Col, Card, BreadcrumbItem, Breadcrumb, Content, Form, FormItem, Message, Spin } from 'iview'
+import {
+  Button,
+  Layout,
+  Header,
+  Menu,
+  MenuItem,
+  Sider,
+  Input,
+  Icon,
+  Submenu,
+  Row,
+  Col,
+  Card,
+  BreadcrumbItem,
+  Breadcrumb,
+  Content,
+  Form,
+  FormItem,
+  Message,
+  Spin,
+  Table
+} from 'iview'
 import 'iview/dist/styles/iview.css'
 
 Vue.component('Button', Button)
@@ -21,3 +42,4 @@ Vue.component('Form', Form)
 Vue.component('FormItem', FormItem)
 Vue.component('Message', Message)
 Vue.component('Spin', Spin)
+Vue.component('Table', Table)

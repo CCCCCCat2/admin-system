@@ -7,10 +7,10 @@
     <Card class="login-form-wrap">
       <Form ref="formCustom" :model="formCustom" :label-width="80">
         <FormItem label="账户" prop="account">
-          <Input type="email" v-model="formCustom.account"></Input>
+          <Input type="email" v-model="formCustom.account"/>
         </FormItem>
         <FormItem label="密码" prop="passwd">
-          <Input type="password" v-model="formCustom.passwd"></Input>
+          <Input type="password" v-model="formCustom.passwd"/>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="handleSubmit()">确定</Button>
@@ -31,7 +31,7 @@ import bus from '../bus.js'
 
 export default {
   name: 'Login',
-  data () {
+  data() {
     return {
       formCustom: {
         account: '',
@@ -51,7 +51,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit () {
+    handleSubmit() {
       this.isLoading = true
       setTimeout(() => {
         this.isLoading = false
@@ -60,7 +60,7 @@ export default {
         this.$router.push('/')
       }, 3000)
     },
-    handleReset (name) {
+    handleReset(name) {
       this.$refs[name].resetFields()
     }
   }
@@ -68,31 +68,31 @@ export default {
 </script>
 
 <style>
-  .index {
-    background: linear-gradient(#04A0F1, #04A0F1, #5cc0f2);
-    height: 100%;
-  }
-  .logo {
-    width: 371px;
-    height: 123px;
-    margin: 100px auto 10px auto;
-  }
-  .logining {
-    background: rgba(0, 0, 0, 0.3);
-  }
-  .login-form-wrap {
-    width: 350px;
-    margin: 0 auto;
-  }
-  .spin-loading-wrap {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  .spin-loading-wrap .spin-loading {
-    width: 35px;
-    margin: 250px auto;
-  }
+.index {
+  background: linear-gradient(#04a0f1, #04a0f1, #5cc0f2);
+  height: 100%;
+}
+.logo {
+  width: 371px;
+  height: 123px;
+  margin: 100px auto 10px auto;
+}
+.logining {
+  background: rgba(0, 0, 0, 0.3);
+}
+.login-form-wrap {
+  width: 350px;
+  margin: 0 auto;
+}
+.spin-loading-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.spin-loading-wrap .spin-loading {
+  width: 35px;
+  margin: 250px auto;
+}
 </style>

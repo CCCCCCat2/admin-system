@@ -3,22 +3,24 @@
     <div class="chatting-input-wrap">
       <Row>
         <Col span="21">
-          <Input placeholder="输入想说的话吧~" type="textarea" :autosize="{minRows: 2,maxRows: 5}" v-model="inputValue" class="chatting-input" />
+          <Input
+            placeholder="输入想说的话吧~"
+            type="textarea"
+            :autosize="{minRows: 2,maxRows: 5}"
+            v-model="inputValue"
+            class="chatting-input"
+          />
         </Col>
         <Col span="3">
           <!-- <div class="submit-btn">发送消息</div> -->
           <Button type="primary" size="large" @click="sendMessage">发送</Button>
         </Col>
-    </Row>
+      </Row>
     </div>
   </div>
 </template>
 
 <script>
-import io from 'socket.io-client'
-
-let socket = io()
-
 export default {
   name: 'ChatRoom',
   data() {
@@ -43,12 +45,9 @@ export default {
       })
 
       this.inputValue = ''
-      
     }
   },
-  mounted() {
-
-  }
+  mounted() {}
 }
 </script>
 
@@ -70,5 +69,4 @@ export default {
 .chatting-input {
   width: 60%;
 }
-
 </style>

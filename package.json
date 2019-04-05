@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "iview": "^3.0.1",
     "socket.io": "^2.2.0",
     "vue": "^2.6.6",
@@ -34,7 +35,9 @@
       "plugin:vue/essential",
       "@vue/standard"
     ],
-    "rules": {},
+    "rules": {
+      "space-before-function-paren": 0
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
