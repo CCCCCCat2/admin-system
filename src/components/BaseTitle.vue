@@ -1,7 +1,7 @@
 <template>
-  <div class>
+  <div class="title-wrap">
     <Icon :type="icon" class="title-icon"></Icon>
-    <span class="title-ctn">{{title}}</span>
+    <p class="title-ctn">{{title}}</p>
   </div>
 </template>
 
@@ -22,13 +22,17 @@ export default {
 <style scoped>
 .title-wrap {
   position: relative;
-  left: 0;
+  margin-left: 0;
+  height: 30px;
 }
 .title-icon {
-  display: inline;
+  position: absolute;
+  left: 0;
   padding: 3px;
 }
 .title-ctn {
+  position: absolute;
+  left: 20px;
   font-size: 15px;
   font-weight: bold;
   color: #333333;

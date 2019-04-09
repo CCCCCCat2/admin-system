@@ -2,17 +2,17 @@
   <div class="layout">
     <Layout>
       <Header>
-        <Menu mode="horizontal" theme="dark" active-name="1">
+        <Menu mode="horizontal" theme="dark" active-name="1" @on-select="toNewPage">
           <div class="layout-logo">ADMIN</div>
           <div class="layout-nav">
-            <MenuItem name="1">
+            <MenuItem name="1" v-if="!isLogin">
               <Icon type="ios-navigate"></Icon>登录
             </MenuItem>
-            <MenuItem name="2">
+            <MenuItem name="2" v-if="!isLogin">
               <Icon type="ios-keypad"></Icon>注册
             </MenuItem>
-            <MenuItem name="3">
-              <Icon type="ios-analytics"></Icon>关于
+            <MenuItem name="3" v-if="isLogin">
+              <Icon type="ios-analytics"></Icon>退出登录
             </MenuItem>
           </div>
         </Menu>
@@ -67,6 +67,7 @@
         <Layout :style="{padding: '0 24px 24px'}">
           <Content :style="{padding: '24px', minHeight: '580px', background: '#fff'}">
             <ContactManagement v-if="contentId === '1-1'"></ContactManagement>
+            <LessonManagement v-if="contentId === '1-4'"></LessonManagement>
           </Content>
         </Layout>
       </Layout>
@@ -75,6 +76,7 @@
 </template>
 <script>
 import ContactManagement from './ContactManagement/Index.vue'
+import LessonManagement from './LessonManagement/index.vue'
 
 export default {
   name: 'Home',
@@ -89,7 +91,25 @@ export default {
   methods: {
     redirectContent: function(name) {
       this.contentId = name
+    },
+    toNewPage: function(name) {
+      switch (name) {
+        case '1':
+          this.$router.push('/login')
+          break
+        case '2':
+          this.$router.push('/register')
+          break
+        case '3':
+          sessionStorage.removeItem('isLogin')
+          location.reload()
+        default:
+          break
+      }
     }
+  },
+  computed: {
+    isLogin: () => !!sessionStorage.getItem('isLogin')
   }
 }
 </script>
@@ -117,6 +137,6 @@ export default {
 .layout-nav {
   width: 420px;
   margin: 0 auto;
-  margin-right: 20px;
+  margin-right: 0;
 }
 </style>

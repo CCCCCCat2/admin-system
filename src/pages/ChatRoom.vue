@@ -13,7 +13,7 @@
         </Col>
         <Col span="3">
           <!-- <div class="submit-btn">发送消息</div> -->
-          <Button type="primary" size="large" @click="sendMessage">发送</Button>
+          <Button type="primary" size="large">发送</Button>
         </Col>
       </Row>
     </div>
@@ -28,25 +28,7 @@ export default {
       inputValue: ''
     }
   },
-  methods: {
-    sendMessage: function() {
-      let message = this.inputValue
-      if (this.inputValue === '') {
-        return false
-      }
-      socket.emit('message', {
-        id: userId,
-        name: nickName,
-        text: message
-      })
-      messageBox.push({
-        name: nickName,
-        text: message
-      })
-
-      this.inputValue = ''
-    }
-  },
+  methods: {},
   mounted() {}
 }
 </script>

@@ -19,7 +19,10 @@ import {
   FormItem,
   Message,
   Spin,
-  Table
+  Table,
+  Modal,
+  Radio,
+  RadioGroup
 } from 'iview'
 import 'iview/dist/styles/iview.css'
 
@@ -43,3 +46,6 @@ Vue.component('FormItem', FormItem)
 Vue.component('Message', Message)
 Vue.component('Spin', Spin)
 Vue.component('Table', Table)
+Vue.component('Modal', Modal)
+Vue.component('Radio', Radio)
+Vue.component('RadioGroup', RadioGroup)
