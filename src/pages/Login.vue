@@ -18,6 +18,9 @@
         </FormItem>
       </Form>
     </Card>
+    <div class="login-register-wrap">
+      <p class="to-register" @click="toRegister">没有账号？快点击此处去注册</p>
+    </div>
     <div class="spin-loading-wrap" :class="{ 'logining': isLoading }" v-if="isLoading">
       <div class="spin-loading">
         <Spin size="large" style="width:300%;height:300%;"></Spin>
@@ -54,17 +57,25 @@ export default {
   methods: {
     handleSubmit() {
       this.isLoading = true
-      // auth.login().then(res => {
-      //   if (res.success) {
+      // auth
+      //   .login(this.formCustom.account, this.formCustom.passwd, 1)
+      //   .then(res => {
+      //     if (res.success) {
+      //       this.isLoading = false
+      //       bus.$emit('login')
+      //       sessionStorage.setItem('isLogin', 'true')
+      //       sessionStorage.setItem('sid', account)
+      //       this.$router.push('/')
+      //     } else {
+      //       alert('账号或密码错误')
+      //     }
+      //   })
+      //   .catch(err => {
+      //     alert('服务器繁忙')
       //     this.isLoading = false
-      //     bus.$emit('login')
-      //     sessionStorage.setItem('isLogin', 'true')
-      //     this.$router.push('/')
-      //   } else {
-      //     alert('账号或密码错误')
-      //   }
-      // })
-      // .catch(err => alert('服务器繁忙'))
+      //     return
+      //   })
+
       setTimeout(() => {
         this.isLoading = false
         bus.$emit('login')
@@ -74,6 +85,9 @@ export default {
     },
     handleReset(name) {
       this.$refs[name].resetFields()
+    },
+    toRegister() {
+      this.$router.push('/register')
     }
   }
 }
@@ -106,5 +120,14 @@ export default {
 .spin-loading-wrap .spin-loading {
   width: 35px;
   margin: 250px auto;
+}
+.login-register-wrap {
+  width: 100%;
+  margin: 15px auto;
+}
+.to-register {
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
 }
 </style>

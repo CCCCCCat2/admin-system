@@ -2,9 +2,16 @@
   <div>
     <Table border :columns="columnTitle" :data="contactData"></Table>
     <div class="add-item-wrap">
-      <Button type="primary" long shape="circle" icon="md-add" size="large">新增通讯录条目</Button>
+      <Button
+        type="primary"
+        long
+        shape="circle"
+        icon="md-add"
+        size="large"
+        @click="addNewItem"
+      >新增通讯录条目</Button>
     </div>
-    <Modal v-model="show" title="编辑通信信息">
+    <Modal v-model="show" title="编辑通信信息" on-ok="submitEdit">
       <Form v-model="contactMessage">
         <FormItem label="姓名">
           <Input v-model="contactMessage.name"/>
@@ -49,6 +56,9 @@
         </FormItem>
       </Form>
     </Modal>
+    <Modal v-model="alert" title="删除联系人" on-ok="submitDelete">
+      <p>该操作将删除一名联系人，确定删除吗？</p>
+    </Modal>
   </div>
 </template>
 
@@ -63,11 +73,31 @@ export default {
     },
     openEdit: function() {
       this.show = true
+      this.editType = 'update'
+    },
+    addNewItem: function() {
+      this.show = true
+      this.editType = 'insert'
+    },
+    submitEdit: function() {
+      if (this.editType === 'insert') {
+        contactApi.insert(Object.assign(this.contactData, { kind: 1 }))
+      } else {
+        contactApi.update(Object.assign(this.contactData, { kind: 2 }))
+      }
+    },
+    delete: function() {
+      this.alert = true
+    },
+    submitDelete: function() {
+      contactApi.delete(Object.assign(this.contactData, { kind: 3 }))
     }
   },
   data() {
     return {
       show: false,
+      alert: false,
+      editType: 'add',
       columnTitle: [
         {
           title: '姓名',
@@ -143,7 +173,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.insertContactItem()
+                      this.delete()
                     }
                   }
                 },

@@ -56,23 +56,29 @@ export default {
   methods: {
     handleSubmit() {
       this.isLoading = true
-      // auth.login().then(res => {
-      //   if (res.success) {
-      //     this.isLoading = false
-      //     bus.$emit('login')
-      //     sessionStorage.setItem('isLogin', 'true')
-      //     this.$router.push('/')
-      //   } else {
-      //     alert('账号或密码错误')
-      //   }
-      // })
-      // .catch(err => alert('服务器繁忙'))
-      setTimeout(() => {
-        this.isLoading = false
-        bus.$emit('login')
-        document.cookie = 'isLogin=true'
-        this.$router.push('/')
-      }, 3000)
+      auth
+        .register(this.formCustom.account, this.formCustom.passwd, 1)
+        .then(res => {
+          if (res.success) {
+            this.isLoading = false
+            bus.$emit('login')
+            sessionStorage.setItem('isLogin', 'true')
+            this.$router.push('/')
+          } else {
+            alert('账号已被注册或填写账号密码格式有误')
+          }
+        })
+        .catch(err => {
+          alert('服务器繁忙')
+          this.isLoading = false
+          return
+        })
+      // setTimeout(() => {
+      //   this.isLoading = false
+      //   bus.$emit('login')
+      //   sessionStorage.setItem('isLogin', 'true')
+      //   this.$router.push('/')
+      // }, 3000)
     },
     handleReset(name) {
       this.$refs[name].resetFields()

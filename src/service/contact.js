@@ -30,7 +30,7 @@ return object {
 contactApi.insert = function (maillist) {
   return axios({
     method: 'post',
-    url: `${baseUrl}/contact`,
+    url: `${baseUrl}/maillistinsert`,
     data: {
       maillist
     }
@@ -39,8 +39,28 @@ contactApi.insert = function (maillist) {
     .catch(err => console.log(err))
 }
 
-contactApi.test = function (id) {
-  alert(`你的账号是${id}`)
+contactApi.update = function (maillist) {
+  return axios({
+    method: 'post',
+    url: `${baseUrl}/maillistupdate`,
+    data: {
+      maillist
+    }
+  })
+    .then(res => res.data())
+    .catch(err => console.log(err))
+}
+
+contactApi.delete = function (maillist) {
+  return axios({
+    method: 'post',
+    url: `${baseUrl}/maillistdelete`,
+    data: {
+      maillist
+    }
+  })
+    .then(res => res.data())
+    .catch(err => console.log(err))
 }
 
 export default contactApi

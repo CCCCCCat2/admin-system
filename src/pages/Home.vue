@@ -65,9 +65,13 @@
           </Menu>
         </Sider>
         <Layout :style="{padding: '0 24px 24px'}">
-          <Content :style="{padding: '24px', minHeight: '580px', background: '#fff'}">
+          <Content
+            :style="{padding: '24px', minHeight: '580px', background: '#fff'}"
+            style="overflow: hidden"
+          >
             <ContactManagement v-if="contentId === '1-1'"></ContactManagement>
             <LessonManagement v-if="contentId === '1-4'"></LessonManagement>
+            <ChattingRoom v-if="contentId === '4-2'"></ChattingRoom>
           </Content>
         </Layout>
       </Layout>
@@ -76,12 +80,15 @@
 </template>
 <script>
 import ContactManagement from './ContactManagement/Index.vue'
-import LessonManagement from './LessonManagement/index.vue'
+import LessonManagement from './LessonManagement/Index.vue'
+import ChattingRoom from './ChattingRoom/Index.vue'
 
 export default {
   name: 'Home',
   components: {
-    ContactManagement
+    ContactManagement,
+    LessonManagement,
+    ChattingRoom
   },
   data() {
     return {
