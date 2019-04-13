@@ -8,7 +8,7 @@
         <p>时间：{{course.item.week}}{{course.item.orders}}</p>
       </Card>
     </div>
-    <Modal v-model="show" title="编辑课程信息" on-ok="submitEdit">
+    <Modal v-model="showItem" title="编辑课程信息" @on-ok="submitEdit">
       <Form v-model="courseEditData">
         <FormItem label="课程名称">
           <Input v-model="courseEditData.cname"/>
@@ -25,26 +25,17 @@
           </Select>
         </FormItem>
         <FormItem label="节次">
-          <Select v-model="courseEditData.orders.begin">
-            <Option value="08:00">08:00</Option>
-            <Option value="09:00">09:00</Option>
-            <Option value="10:00">10:00</Option>
-            <Option value="11:00">11:00</Option>
-            <Option value="01:30">01:30</Option>
-            <Option value="02:30">02:30</Option>
-            <Option value="03:30">03:30</Option>
-            <Option value="04:30">04:30</Option>
+          <Select v-model="courseEditData.orders">
+            <Option value="1">08:00</Option>
+            <Option value="2">09:00</Option>
+            <Option value="3">10:00</Option>
+            <Option value="4">11:00</Option>
+            <Option value="5">01:30</Option>
+            <Option value="6">02:30</Option>
+            <Option value="7">03:30</Option>
+            <Option value="8">04:30</Option>
           </Select>
-          <Select v-model="courseEditData.orders.end">
-            <Option value="09:00">09:00</Option>
-            <Option value="10:00">10:00</Option>
-            <Option value="11:00">11:00</Option>
-            <Option value="01:30">01:30</Option>
-            <Option value="02:30">02:30</Option>
-            <Option value="03:30">03:30</Option>
-            <Option value="04:30">04:30</Option>
-            <Option value="05:30">05:30</Option>
-          </Select>
+
         </FormItem>
         <FormItem label="教师">
           <Input v-model="courseEditData.teacher"/>
@@ -64,31 +55,30 @@ export default {
   name: 'CourseItem',
   props: {
     course: {
+      sid: String,
       cname: String,
       teach: String,
       classroom: String,
       week: String,
-      orders: String
+      orders: Number
     }
   },
   data() {
     return {
-      show: false,
+      showItem: false,
       courseEditData: {
+        sid: '0413001',
         cname: '',
         classroom: '',
         teacher: '',
-        week: '',
-        orders: {
-          begin: '',
-          end: ''
-        }
+        week: '2',
+        orders: 1
       }
     }
   },
   methods: {
     openEdit: function() {
-      this.show = true
+      this.showItem = true
       this.courseEditData.cname = this.course.item.cname
       this.courseEditData.classroom = this.course.item.classroom
       this.courseEditData.teacher = this.course.item.teach

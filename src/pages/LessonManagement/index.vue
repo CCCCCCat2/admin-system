@@ -5,7 +5,7 @@
         <CourseItem :course="{item}"></CourseItem>
       </div>
       <Button type="primary" long shape="circle" icon="md-add" size="large" @click="addNewItem">新增课程</Button>
-      <Modal v-model="show" title="编辑课程信息" on-ok="submitInsert">
+      <Modal v-model="show" title="编辑课程信息" @on-ok="submitInsert">
         <Form v-model="courseEditData">
           <FormItem label="课程名称">
             <Input v-model="courseEditData.name"/>
@@ -62,6 +62,8 @@
 // import LessonTableWeek from '../../components/LessonTableWeek'
 import CourseItem from '../../components/CourseItem'
 import { courseService } from '../../service/course.js'
+import { constants } from 'crypto';
+import { lookup } from 'dns';
 
 export default {
   name: 'LessonManagement',
@@ -84,49 +86,50 @@ export default {
           teach: '大佬1',
           classroom: '教三-333',
           week: '周四',
-          orders: '08:00-10:00'
+          orders: 1,
+          sid: '0413001'
         },
         {
           cname: '计算机网络',
           teach: '大佬1',
           classroom: '教三-333',
           week: '周四',
-          orders: '08:00-10:00'
+          orders: 1
         },
         {
           cname: '计算机网络',
           teach: '大佬1',
           classroom: '教三-333',
           week: '周四',
-          orders: '08:00-10:00'
+          orders: 1
         },
         {
           cname: '计算机网络',
           teach: '大佬1',
           classroom: '教三-333',
           week: '周四',
-          orders: '08:00-10:00'
+          orders: 1
         },
         {
           cname: '计算机网络',
           teach: '大佬1',
           classroom: '教三-333',
           week: '周四',
-          orders: '08:00-10:00'
+          orders: 1
         },
         {
           cname: '计算机网络',
           teach: '大佬1',
           classroom: '教三-333',
           week: '周四',
-          orders: '08:00-10:00'
+          orders: 1
         },
         {
           cname: '计算机网络',
           teach: '大佬1',
           classroom: '教三-333',
           week: '周四',
-          orders: '08:00-10:00'
+          orders: 1
         }
       ]
     }
@@ -136,6 +139,7 @@ export default {
       this.show = true
     },
     submitInsert: function() {
+      console.log(this.courseEditData)
       courseService.insertCourse(this.courseEditData).then(res => {
         res.success && alert('新增课程成功')
         location.reload()

@@ -13,6 +13,9 @@
     </div>
     <Modal v-model="show" title="编辑通信信息" on-ok="submitEdit">
       <Form v-model="contactMessage">
+        <FormItem label="学号">
+          <Input v-model="contactMessage.sid"/>
+        </FormItem>
         <FormItem label="姓名">
           <Input v-model="contactMessage.name"/>
         </FormItem>
@@ -100,6 +103,10 @@ export default {
       editType: 'add',
       columnTitle: [
         {
+          title: '学号',
+          key: 'sid'
+        },
+        {
           title: '姓名',
           key: 'name'
         },
@@ -185,6 +192,7 @@ export default {
       ],
       contactData: [
         {
+          sid:'0413001',
           name: '陈xx',
           age: 18,
           sex: '男',
@@ -202,12 +210,13 @@ export default {
         name: '',
         age: 0,
         sex: 'male',
+        tel:'',
         grade: '',
         email: '',
         qq: 1000000,
         year: '',
         cardid: '',
-        bankid: ''
+        bankcard: ''
       }
     }
   },

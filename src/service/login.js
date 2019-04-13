@@ -26,21 +26,34 @@ auth.login = function (id, password, type) {
 }
 
 auth.register = function (id, password, type) {
-  return axios({
-    method: 'post',
-    url: `${baseUrl}Access/Register`,
-    headers: {
-      'content-type': 'application/json'
-    },
-    withCredentials: true,
-    data: {
+  // return axios({
+  //   method: 'POST',
+  //   url: `${baseUrl}Access/Register`,
+  //   headers: {
+  //     'content-type': 'application/json'
+  //   },
+  //   withCredentials: true,
+  //   data: {
+  //     sid: id,
+  //     password: password,
+  //     kind: type+''
+  //   }
+  // })
+  return fetch(`${baseUrl}Access/Register`, {
+    method: 'POST',
+    body: JSON.stringify({
       sid: id,
       password: password,
-      type: type
+      kind: type+''
+    }),
+    mode: 'cors',
+    headers: {
+      'content-type': 'application/json'
     }
   })
     .then(res => {
-      res.data()
+      console.log(res)
+      return res.json()
     })
     .catch(err => console.log(err))
 }

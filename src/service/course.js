@@ -7,7 +7,7 @@ class CourseService {
   getCourseList(id) {
     return axios({
       method: 'GET',
-      url: `${baseUrl}Access/tcoursesearch`,
+      url: `${baseUrl}Tcourse/tcoursesearch`,
       data: {
         id: id
       }
@@ -15,18 +15,23 @@ class CourseService {
       .then(res => res.data())
   }
   insertCourse(course) {
-    return axios({
+    return fetch(`${baseUrl}Tcourse/Tcourseinsert`, {
       method: 'POST',
-      data: {
+      headers: {
+        'content-type': 'application/json'
+      },
+      mode: 'cors',
+      body: JSON.stringify({
         sid: course.sid,
         cname: course.cname,
         teach: course.teacher,
         classroom: course.classroom,
         week: course.week,
-        orders: course.orders
-      }
+        orders: course.orders,
+        signalordouble: 'double'
+      })
     })
-      .then(res => res.data())
+      .then(res => res.json())
   }
   deleteCourse(id) {
     return axios({
