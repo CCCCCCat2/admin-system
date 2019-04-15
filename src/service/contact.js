@@ -1,4 +1,3 @@
-import axios from 'axios'
 import {
   baseUrl
 } from './config'
@@ -28,38 +27,61 @@ return object {
 }
 */
 contactApi.insert = function (maillist) {
-  return axios({
-    method: 'post',
-    url: `${baseUrl}/maillistinsert`,
-    data: {
-      maillist
-    }
+  // return axios({
+  //   method: 'post',
+  //   url: `${baseUrl}Maillist/Mailinsert`,
+  //   data: {
+  //     maillist
+  //   }
+  // })
+  return fetch(`${baseUrl}Maillist/Mailinsert`, {
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(maillist),
+    mode: 'cors'
   })
-    .then(res => res.data())
+    .then(res => res.json())
     .catch(err => console.log(err))
 }
 
 contactApi.update = function (maillist) {
-  return axios({
-    method: 'post',
-    url: `${baseUrl}/maillistupdate`,
-    data: {
-      maillist
-    }
+  return fetch(`${baseUrl}Maillist/Mailupdate`, {
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(maillist),
+    mode: 'cors'
   })
-    .then(res => res.data())
+    .then(res => res.json())
     .catch(err => console.log(err))
 }
 
 contactApi.delete = function (maillist) {
-  return axios({
-    method: 'post',
-    url: `${baseUrl}/maillistdelete`,
-    data: {
-      maillist
-    }
+  return fetch(`${baseUrl}Maillist/Maildelete`, {
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(maillist),
+    mode: 'cors'
   })
-    .then(res => res.data())
+    .then(res => res.json())
+    .catch(err => console.log(err))
+}
+
+contactApi.search = function (maillist) {
+  return fetch(`${baseUrl}Maillist/Mailsearch`, {
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(maillist),
+    mode: 'cors'
+  })
+    .then(res => res.json())
     .catch(err => console.log(err))
 }
 

@@ -63,8 +63,10 @@ export default {
             this.isLoading = false
             bus.$emit('login')
             sessionStorage.setItem('isLogin', 'true')
+            sessionStorage.setItem('sid', this.formCustom.account)
             this.$router.push('/')
           } else {
+            this.isLoading = false
             alert('账号已被注册或填写账号密码格式有误')
           }
         })

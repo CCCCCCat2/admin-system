@@ -1,18 +1,20 @@
-import axios from 'axios'
 import {
   baseUrl
-} from './config';
+} from './config'
 
 class CourseService {
   getCourseList(id) {
-    return axios({
-      method: 'GET',
-      url: `${baseUrl}Tcourse/tcoursesearch`,
-      data: {
-        id: id
-      }
+    return fetch(`${baseUrl}Tcourse/Tcoursesearch`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      mode: 'cors',
+      body: JSON.stringify({
+        sid: id
+      })
     })
-      .then(res => res.data())
+      .then(res => res.json())
   }
   insertCourse(course) {
     return fetch(`${baseUrl}Tcourse/Tcourseinsert`, {
@@ -21,7 +23,7 @@ class CourseService {
         'content-type': 'application/json'
       },
       mode: 'cors',
-      body: JSON.stringify({
+      body: JSON.stringify([ {
         sid: course.sid,
         cname: course.cname,
         teach: course.teacher,
@@ -29,18 +31,41 @@ class CourseService {
         week: course.week,
         orders: course.orders,
         signalordouble: 'double'
-      })
+      } ])
     })
       .then(res => res.json())
   }
   deleteCourse(id) {
-    return axios({
+    return fetch(`${baseUrl}Tcourse/Tcoursedelete`, {
       method: 'POST',
-      data: {
+      headers: {
+        'content-type': 'application/json'
+      },
+      mode: 'cors',
+      body: JSON.stringify({
         id: id
-      }
+      })
     })
-      .then(res => res.data())
+      .then(res => res.json())
+  }
+  updateCourse(course) {
+    return fetch(`${baseUrl}Tcourse/Tcourseupdate`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      mode: 'cors',
+      body: JSON.stringify([ {
+        sid: course.sid,
+        cname: course.cname,
+        teach: course.teacher,
+        classroom: course.classroom,
+        week: course.week,
+        orders: course.orders,
+        signalordouble: 'double'
+      } ])
+    })
+      .then(res => res.json())
   }
 }
 

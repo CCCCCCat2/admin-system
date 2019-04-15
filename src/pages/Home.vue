@@ -109,6 +109,7 @@ export default {
           break
         case '3':
           sessionStorage.removeItem('isLogin')
+          sessionStorage.removeItem('sid')
           location.reload()
         default:
           break

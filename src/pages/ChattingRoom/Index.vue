@@ -16,6 +16,18 @@
 
 <script>
 import Editor from '@tinymce/tinymce-vue'
+import { wsUrl } from '../../service/config.js'
+
+function getWebsocket() {
+  const websocketService = new WebSocket(`${wsUrl}chat`)
+  websocketService.onmessage = function(event) {
+    console.log(event.data)
+  }
+  websocketService.onerror = function(event) {
+    console.log('websocket异常')
+  }
+  return websocketService
+}
 
 export default {
   name: 'ChattingRoom',
@@ -29,13 +41,17 @@ export default {
       message: ''
     }
   },
-  methods: {},
-  mounted() {},
+  mounted() {
+    const websocketService = getWebsocket()
+  },
   components: {
     Editor
   },
   methods: {
-    sendMessage: function() {}
+    sendMessage: function() {
+      console.log(this.websocketService)
+      websocketService.send(this.message)
+    }
   }
 }
 </script>

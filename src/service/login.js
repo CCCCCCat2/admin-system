@@ -6,21 +6,21 @@ import {
 const auth = {}
 
 auth.login = function (id, password, type) {
-  return axios({
-    method: 'post',
-    url: `${baseUrl}Access/Login`,
-    headers: {
-      'content-type': 'application/json'
-    },
-    withCredentials: true,
-    data: {
+  return fetch(`${baseUrl}Access/Login`, {
+    method: 'POST',
+    body: JSON.stringify({
       sid: id,
       password: password,
-      type: type
+      kind: type + ''
+    }),
+    mode: 'cors',
+    headers: {
+      'content-type': 'application/json'
     }
   })
     .then(res => {
-      res.data()
+      console.log(res)
+      return res.json()
     })
     .catch(err => console.log(err))
 }
@@ -44,7 +44,7 @@ auth.register = function (id, password, type) {
     body: JSON.stringify({
       sid: id,
       password: password,
-      kind: type+''
+      kind: type + ''
     }),
     mode: 'cors',
     headers: {

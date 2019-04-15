@@ -2,52 +2,25 @@
   <div>
     <div class="lesson-table-wrap">
       <div class="lesson-table-row" v-for="item in courseData">
-        <CourseItem :course="{item}"></CourseItem>
+        <CourseItem :course="{item}" @click="editUpdate"></CourseItem>
       </div>
       <Button type="primary" long shape="circle" icon="md-add" size="large" @click="addNewItem">新增课程</Button>
-      <Modal v-model="show" title="编辑课程信息" @on-ok="submitInsert">
-        <Form v-model="courseEditData">
+      <Modal v-model="showCourseInsert" title="编辑课程信息" @on-ok="submitChange">
+        <Form :model="courseEditData">
           <FormItem label="课程名称">
-            <Input v-model="courseEditData.name"/>
+            <Input v-model="courseEditData.name" :placeholder="'填写课程名'"/>
           </FormItem>
           <FormItem label="日期">
-            <Select v-model="courseEditData.week">
-              <Option value="周一">周一</Option>
-              <Option value="周二">周二</Option>
-              <Option value="周三">周三</Option>
-              <Option value="周四">周四</Option>
-              <Option value="周五">周五</Option>
-              <Option value="周六">周六</Option>
-              <Option value="周日">周日</Option>
-            </Select>
+            <Input v-model="courseEditData.week" :placeholder="'填写上课具体周几，如 4'"/>
           </FormItem>
           <FormItem label="节次">
-            <Select v-model="courseEditData.orders.begin">
-              <Option value="08:00">08:00</Option>
-              <Option value="09:00">09:00</Option>
-              <Option value="10:00">10:00</Option>
-              <Option value="11:00">11:00</Option>
-              <Option value="01:30">01:30</Option>
-              <Option value="02:30">02:30</Option>
-              <Option value="03:30">03:30</Option>
-              <Option value="04:30">04:30</Option>
-            </Select>
-            <Select v-model="courseEditData.orders.end">
-              <Option value="09:00">09:00</Option>
-              <Option value="10:00">10:00</Option>
-              <Option value="11:00">11:00</Option>
-              <Option value="01:30">01:30</Option>
-              <Option value="02:30">02:30</Option>
-              <Option value="03:30">03:30</Option>
-              <Option value="04:30">04:30</Option>
-              <Option value="05:30">05:30</Option>
-            </Select>
+            <Input v-model="courseEditData.orders" :placeholder="'填写节次，如 2'"/>
           </FormItem>
           <FormItem label="教师">
-            <Input v-model="courseEditData.teacher"/>
+            <Input v-model="courseEditData.teach" :placeholder="'填写教师姓名'"/>
           </FormItem>
           <FormItem label="教室">
-            <Input v-model="courseEditData.classroom"/>
+            <Input v-model="courseEditData.classroom" :placeholder="'填写教室，如 教三-333 '"/>
           </FormItem>
         </Form>
       </Modal>
@@ -62,88 +35,98 @@
 // import LessonTableWeek from '../../components/LessonTableWeek'
 import CourseItem from '../../components/CourseItem'
 import { courseService } from '../../service/course.js'
-import { constants } from 'crypto';
-import { lookup } from 'dns';
 
 export default {
   name: 'LessonManagement',
   data() {
     return {
-      show: false,
+      showCourseInsert: false,
+      editType: '',
       courseEditData: {
+        sid: sessionStorage.getItem('sid'),
         cname: '',
         classroom: '',
-        teacher: '',
+        teach: '',
         week: '',
-        orders: {
-          begin: '',
-          end: ''
-        }
+        orders: null
       },
-      courseData: [
-        {
-          cname: '计算机网络',
-          teach: '大佬1',
-          classroom: '教三-333',
-          week: '周四',
-          orders: 1,
-          sid: '0413001'
-        },
-        {
-          cname: '计算机网络',
-          teach: '大佬1',
-          classroom: '教三-333',
-          week: '周四',
-          orders: 1
-        },
-        {
-          cname: '计算机网络',
-          teach: '大佬1',
-          classroom: '教三-333',
-          week: '周四',
-          orders: 1
-        },
-        {
-          cname: '计算机网络',
-          teach: '大佬1',
-          classroom: '教三-333',
-          week: '周四',
-          orders: 1
-        },
-        {
-          cname: '计算机网络',
-          teach: '大佬1',
-          classroom: '教三-333',
-          week: '周四',
-          orders: 1
-        },
-        {
-          cname: '计算机网络',
-          teach: '大佬1',
-          classroom: '教三-333',
-          week: '周四',
-          orders: 1
-        },
-        {
-          cname: '计算机网络',
-          teach: '大佬1',
-          classroom: '教三-333',
-          week: '周四',
-          orders: 1
-        }
-      ]
+      // courseData: [
+      //   {
+      //     cname: '计算机网络',
+      //     teach: '大佬1',
+      //     classroom: '教三-333',
+      //     week: '周四',
+      //     orders: 1,
+      //     sid: '0413001'
+      //   },
+      //   {
+      //     cname: '计算机网络',
+      //     teach: '大佬1',
+      //     classroom: '教三-333',
+      //     week: '周四',
+      //     orders: 1
+      //   },
+      //   {
+      //     cname: '计算机网络',
+      //     teach: '大佬1',
+      //     classroom: '教三-333',
+      //     week: '周四',
+      //     orders: 1
+      //   },
+      //   {
+      //     cname: '计算机网络',
+      //     teach: '大佬1',
+      //     classroom: '教三-333',
+      //     week: '周四',
+      //     orders: 1
+      //   },
+      //   {
+      //     cname: '计算机网络',
+      //     teach: '大佬1',
+      //     classroom: '教三-333',
+      //     week: '周四',
+      //     orders: 1
+      //   },
+      //   {
+      //     cname: '计算机网络',
+      //     teach: '大佬1',
+      //     classroom: '教三-333',
+      //     week: '周四',
+      //     orders: 1
+      //   },
+      //   {
+      //     cname: '计算机网络',
+      //     teach: '大佬1',
+      //     classroom: '教三-333',
+      //     week: '周四',
+      //     orders: 1
+      //   }
+      // ]
+      courseData: []
     }
   },
   methods: {
     addNewItem: function() {
-      this.show = true
+      this.showCourseInsert = true
+      this.editType = 'insert'
     },
-    submitInsert: function() {
-      console.log(this.courseEditData)
-      courseService.insertCourse(this.courseEditData).then(res => {
-        res.success && alert('新增课程成功')
-        location.reload()
-      })
+    submitChange: function() {
+      if (this.editType === 'insert') {
+        courseService.insertCourse(this.courseEditData).then(res => {
+          if (res.success) {
+            this.courseData.push(this.courseEditData)
+            alert('新增课程成功！')
+          }
+        })
+      } else {
+        courseService.updateCourse(this.courseEditData).then(res => {
+          res.success && alert('更新课程成功')
+        })
+      }
+    },
+    editUpdate: function() {
+      this.show = true
+      this.editType = 'update'
     }
   },
   components: {
@@ -152,8 +135,15 @@ export default {
     // LessonTableWeek
   },
   mounted() {
-    // courseService.getCourseList(sessionStorage.getItem('sid'))
-    // .then(res => this.courseData = res)
+    courseService.getCourseList(sessionStorage.getItem('sid')).then(res => {
+      if (res.success) {
+        // !!!此处需要和后端对下数据是否存在data字段里
+        this.courseData = res.message
+      } else {
+        // this.$Message.error('暂无课程信息')
+        alert('暂无课程信息')
+      }
+    })
   }
 }
 </script>

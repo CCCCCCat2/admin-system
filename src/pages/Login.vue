@@ -60,13 +60,15 @@ export default {
       auth
         .login(this.formCustom.account, this.formCustom.passwd, 1)
         .then(res => {
+          console.log(res)
           if (res.success) {
             this.isLoading = false
             bus.$emit('login')
             sessionStorage.setItem('isLogin', 'true')
-            sessionStorage.setItem('sid', account)
+            sessionStorage.setItem('sid', this.formCustom.account)
             this.$router.push('/')
           } else {
+            this.isLoading = false
             alert('账号或密码错误')
           }
         })
