@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="chatting-input-wrap">
-      <ChatBubble v-html="message"></ChatBubble>
+      <ChatBubble v-for="item in message" :content="item" :key="item"></ChatBubble>
     </div>
     <div class="editor-wrap">
       <Row>
@@ -41,7 +41,7 @@ export default {
         max_height: 200,
         min_height: 200
       },
-      message: ''
+      message: []
     }
   },
   mounted() {
@@ -55,7 +55,8 @@ export default {
     sendMessage: function() {
       console.log(this.websocketService)
       // websocketService.send(this.message)
-      this.message = this.inputValue
+      this.message.push(this.inputValue)
+      this.inputValue = ''
     }
   }
 }

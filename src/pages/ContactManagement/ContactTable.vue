@@ -234,30 +234,30 @@ export default {
       ],
       contactData: [
         {
-          sid: '0413001',
-          name: '陈xx',
+          sid: '2017611213',
+          name: '陈楠伟',
           age: 18,
           sex: '男',
-          tel: 10086,
+          tel: 1323848599,
           grade: '本科一年级',
-          email: 'chenxx@outlook.com',
-          qq: 1001010,
-          year: '2011-01-01',
-          cardid: '1234567890',
-          bankcard: '1234567890'
+          email: 'chennanwei@bupt.edu.cn',
+          qq: 3729199,
+          year: '2001-06-18',
+          cardid: '******************',
+          bankcard: '*********'
         },
         {
-          sid: '0413002',
-          name: '陈oo',
-          age: 18,
+          sid: '2015611203',
+          name: '叶裴',
+          age: 23,
           sex: '女',
-          tel: 10086,
-          grade: '本科一年级',
-          email: 'chenxx@outlook.com',
-          qq: 1001010,
-          year: '2011-01-01',
-          cardid: '1234567890',
-          bankcard: '1234567890'
+          tel: 1301198732,
+          grade: '研究生一年级',
+          email: 'yepei@bupt.edu.cn',
+          qq: 738592726,
+          year: '1996-12-03',
+          cardid: '******************',
+          bankcard: '*********'
         }
       ],
       contactMessage: {
