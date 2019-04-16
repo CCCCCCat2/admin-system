@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div class="chatting-input-wrap"></div>
+    <div class="chatting-input-wrap">
+      <ChatBubble v-html="message"></ChatBubble>
+    </div>
     <div class="editor-wrap">
       <Row>
         <Col span="21">
-          <editor :init="initConf" v-model="message"></editor>
+          <editor :init="initConf" v-model="inputValue"></editor>
         </Col>
         <Col span="3">
           <div class="send-btn" @click="sendMessage">发送消息</div>
@@ -17,17 +19,18 @@
 <script>
 import Editor from '@tinymce/tinymce-vue'
 import { wsUrl } from '../../service/config.js'
+import ChatBubble from '../../components/ChatBubble'
 
-function getWebsocket() {
-  const websocketService = new WebSocket(`${wsUrl}chat`)
-  websocketService.onmessage = function(event) {
-    console.log(event.data)
-  }
-  websocketService.onerror = function(event) {
-    console.log('websocket异常')
-  }
-  return websocketService
-}
+// function getWebsocket() {
+//   const websocketService = new WebSocket(`${wsUrl}chat`)
+//   websocketService.onmessage = function(event) {
+//     console.log(event.data)
+//   }
+//   websocketService.onerror = function(event) {
+//     console.log('websocket异常')
+//   }
+//   return websocketService
+// }
 
 export default {
   name: 'ChattingRoom',
@@ -42,15 +45,17 @@ export default {
     }
   },
   mounted() {
-    const websocketService = getWebsocket()
+    // const websocketService = getWebsocket()
   },
   components: {
-    Editor
+    Editor,
+    ChatBubble
   },
   methods: {
     sendMessage: function() {
       console.log(this.websocketService)
-      websocketService.send(this.message)
+      // websocketService.send(this.message)
+      this.message = this.inputValue
     }
   }
 }

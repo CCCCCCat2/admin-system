@@ -42,9 +42,9 @@ class CourseService {
         'content-type': 'application/json'
       },
       mode: 'cors',
-      body: JSON.stringify({
+      body: JSON.stringify([ {
         id: id
-      })
+      } ])
     })
       .then(res => res.json())
   }

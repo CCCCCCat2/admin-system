@@ -5,16 +5,23 @@
         <CourseItem :course="{item}" @click="editUpdate"></CourseItem>
       </div>
       <Button type="primary" long shape="circle" icon="md-add" size="large" @click="addNewItem">新增课程</Button>
-      <Modal v-model="showCourseInsert" title="编辑课程信息" @on-ok="submitChange">
+      <Modal v-model="showCourseInsert" title="编辑课程信息" @on-ok="submitInsertCourse">
         <Form :model="courseEditData">
           <FormItem label="课程名称">
-            <Input v-model="courseEditData.name" :placeholder="'填写课程名'"/>
+            <Input v-model="courseEditData.cname" :placeholder="'填写课程名'"/>
           </FormItem>
           <FormItem label="日期">
             <Input v-model="courseEditData.week" :placeholder="'填写上课具体周几，如 4'"/>
           </FormItem>
           <FormItem label="节次">
             <Input v-model="courseEditData.orders" :placeholder="'填写节次，如 2'"/>
+          </FormItem>
+          <FormItem label="单/双周">
+            <RadioGroup v-model="courseEditData.signalordouble">
+              <Radio label="single">单周</Radio>
+              <Radio label="double">双周</Radio>
+              <Radio label="both">单双周</Radio>
+            </RadioGroup>
           </FormItem>
           <FormItem label="教师">
             <Input v-model="courseEditData.teach" :placeholder="'填写教师姓名'"/>
@@ -48,7 +55,8 @@ export default {
         classroom: '',
         teach: '',
         week: '',
-        orders: null
+        orders: null,
+        signalordouble: ''
       },
       // courseData: [
       //   {
@@ -110,12 +118,21 @@ export default {
       this.showCourseInsert = true
       this.editType = 'insert'
     },
-    submitChange: function() {
+    submitInsertCourse: function() {
       if (this.editType === 'insert') {
         courseService.insertCourse(this.courseEditData).then(res => {
           if (res.success) {
             this.courseData.push(this.courseEditData)
             alert('新增课程成功！')
+            this.courseEditData = {
+              sid: sessionStorage.getItem('sid'),
+              cname: '',
+              classroom: '',
+              teach: '',
+              week: '',
+              orders: null,
+              signalordouble: ''
+            }
           }
         })
       } else {

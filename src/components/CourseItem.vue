@@ -9,6 +9,7 @@
               <p>教师：{{course.item.teach}}</p>
               <p>教室：{{course.item.classroom}}</p>
               <p>时间：{{course.item.week}}{{course.item.orders}}</p>
+              <p>单双周：{{course.item.signalordouble === 'double' ? '双周' : (course.item.signalordouble === 'both' ? '单双周' : '单周')}}</p>
             </Card>
           </div>
         </Col>
@@ -28,6 +29,13 @@
         <FormItem label="节次">
           <Input v-model="courseUpdateData.orders" :placeholder="'填写节次，如 2'"/>
         </FormItem>
+        <FormItem label="单/双周">
+          <RadioGroup v-model="courseUpdateData.signalordouble">
+            <Radio label="single">单周</Radio>
+            <Radio label="double">双周</Radio>
+            <Radio label="both">单双周</Radio>
+          </RadioGroup>
+        </FormItem>
         <FormItem label="教师">
           <Input v-model="courseUpdateData.teach" :placeholder="'填写教师姓名'"/>
         </FormItem>
@@ -37,7 +45,7 @@
       </Form>
     </Modal>
     <Modal v-model="deleteCourseAlert" title="删除联系人" @on-ok="submitDeleteCourse">
-      <p>该操作将删除一名联系人，确定删除吗？</p>
+      <p>该操作将删除当前课程，确定删除吗？</p>
     </Modal>
   </div>
 </template>
@@ -54,7 +62,8 @@ export default {
       teach: String,
       classroom: String,
       week: String,
-      orders: Number
+      orders: Number,
+      signalordouble: String
     }
   },
   data() {
@@ -64,12 +73,13 @@ export default {
       deleteCourseAlert: false,
       isShowCourse: true,
       courseUpdateData: {
-        sid: '0413001',
+        sid: sessionStorage.getItem('sid'),
         cname: '',
         classroom: '',
         teach: '',
         week: '2',
-        orders: 1
+        orders: 1,
+        signalordouble: ''
       }
     }
   },
@@ -106,7 +116,7 @@ export default {
     },
     submitDeleteCourse: function() {
       courseService
-        .deleteCourse(this.courseUpdateData)
+        .deleteCourse(this.course.item)
         .then(res => {
           if (res.success) {
             this.isShowCourse = false
