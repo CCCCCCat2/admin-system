@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BaseTitle title="通讯录管理" icon="ios-contact"></BaseTitle>
+    <base-title title="通讯录管理" icon="ios-contact"></base-title>
     <ContactTable></ContactTable>
   </div>
 </template>

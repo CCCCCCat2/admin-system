@@ -1,8 +1,11 @@
 <template>
   <div>
     <div class="lesson-table-wrap">
-      <div class="lesson-table-row" v-for="item in courseData">
-        <CourseItem :course="{item}" @click="editUpdate"></CourseItem>
+      <div class="lesson-table-row">
+        <div class="spin-loading" v-if="isLoading">
+          <Spin size="large" style="width:300%;height:300%;"></Spin>
+        </div>
+        <lesson-table :lessonData="{courseData}" v-else></lesson-table>
       </div>
       <Button type="primary" long shape="circle" icon="md-add" size="large" @click="addNewItem">新增课程</Button>
       <Modal v-model="showCourseInsert" title="编辑课程信息" @on-ok="submitInsertCourse">
@@ -11,10 +14,20 @@
             <Input v-model="courseEditData.cname" :placeholder="'填写课程名'"/>
           </FormItem>
           <FormItem label="日期">
-            <Input v-model="courseEditData.week" :placeholder="'填写上课具体周几，如 4'"/>
+            <!-- <Input v-model="courseEditData.week" :placeholder="'填写上课具体周几，如 4'"/> -->
+            <select v-model="courseEditData.week" class="select-box">
+              <option value="周一">周一</option>
+              <option value="周二">周二</option>
+              <option value="周三">周三</option>
+            </select>
           </FormItem>
           <FormItem label="节次">
-            <Input v-model="courseEditData.orders" :placeholder="'填写节次，如 2'"/>
+            <!-- <Input v-model="courseEditData.orders" :placeholder="'填写节次，如 2'"/> -->
+            <select v-model="courseEditData.orders" class="select-box">
+              <option value="1">第一节</option>
+              <option value="2">第二节</option>
+              <option value="3">第三节</option>
+            </select>
           </FormItem>
           <FormItem label="单/双周">
             <RadioGroup v-model="courseEditData.signalordouble">
@@ -31,17 +44,14 @@
           </FormItem>
         </Form>
       </Modal>
-      <!-- <LessonTableWeek></LessonTableWeek>
-      <LessonRow :lessonRowList="courseData"></LessonRow>-->
     </div>
   </div>
 </template>
 
 <script>
-// import LessonRow from '../../components/LessonRow'
-// import LessonTableWeek from '../../components/LessonTableWeek'
-import CourseItem from '../../components/CourseItem'
-import { courseService } from '../../service/course.js'
+// import CourseItem from '../../components/CourseItem'
+import LessonTable from './lesson-table'
+import {courseService} from '../../service/course.js'
 
 export default {
   name: 'LessonManagement',
@@ -58,59 +68,8 @@ export default {
         orders: null,
         signalordouble: ''
       },
-      // courseData: [
-      //   {
-      //     cname: '计算机网络',
-      //     teach: '大佬1',
-      //     classroom: '教三-333',
-      //     week: '周四',
-      //     orders: 1,
-      //     sid: '0413001'
-      //   },
-      //   {
-      //     cname: '计算机网络',
-      //     teach: '大佬1',
-      //     classroom: '教三-333',
-      //     week: '周四',
-      //     orders: 1
-      //   },
-      //   {
-      //     cname: '计算机网络',
-      //     teach: '大佬1',
-      //     classroom: '教三-333',
-      //     week: '周四',
-      //     orders: 1
-      //   },
-      //   {
-      //     cname: '计算机网络',
-      //     teach: '大佬1',
-      //     classroom: '教三-333',
-      //     week: '周四',
-      //     orders: 1
-      //   },
-      //   {
-      //     cname: '计算机网络',
-      //     teach: '大佬1',
-      //     classroom: '教三-333',
-      //     week: '周四',
-      //     orders: 1
-      //   },
-      //   {
-      //     cname: '计算机网络',
-      //     teach: '大佬1',
-      //     classroom: '教三-333',
-      //     week: '周四',
-      //     orders: 1
-      //   },
-      //   {
-      //     cname: '计算机网络',
-      //     teach: '大佬1',
-      //     classroom: '教三-333',
-      //     week: '周四',
-      //     orders: 1
-      //   }
-      // ]
-      courseData: []
+      courseData: [],
+      isLoading: true
     }
   },
   methods: {
@@ -147,7 +106,8 @@ export default {
     }
   },
   components: {
-    CourseItem
+    // CourseItem,
+    LessonTable
     // LessonRow,
     // LessonTableWeek
   },
@@ -156,9 +116,12 @@ export default {
       if (res.success) {
         // !!!此处需要和后端对下数据是否存在data字段里
         this.courseData = res.message
+        console.table(this.courseData)
+        this.isLoading = false
       } else {
         // this.$Message.error('暂无课程信息')
         alert('暂无课程信息')
+        this.isLoading = false
       }
     })
   }
@@ -172,5 +135,12 @@ export default {
   margin: 0;
 }
 .lesson-table-row {
+}
+.spin-loading {
+  padding: 20px 0;
+  margin: 0 auto;
+}
+.select-box {
+  padding: 3px 8px;
 }
 </style>

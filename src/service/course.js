@@ -29,7 +29,7 @@ class CourseService {
         teach: course.teacher,
         classroom: course.classroom,
         week: course.week,
-        orders: course.orders,
+        orders: Number(course.orders),
         signalordouble: 'double'
       } ])
     })

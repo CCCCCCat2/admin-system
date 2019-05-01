@@ -3,7 +3,10 @@
     <Layout>
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="1" @on-select="toNewPage">
-          <div class="layout-logo">ADMIN</div>
+          <div class="layout-logo-wrap">
+            <Icon type="md-planet" class="layout-logo" size="40"></Icon>
+            <span class="layout-logo-title">北京邮电大学科研资源管理系统</span>
+          </div>
           <div class="layout-nav">
             <MenuItem name="1" v-if="!isLogin">
               <Icon type="ios-navigate"></Icon>登录
@@ -18,7 +21,7 @@
         </Menu>
       </Header>
       <Layout>
-        <Sider hide-trigger :style="{background: '#fff'}">
+        <Sider collapsible :collapsed-with="78" hide-trigger :style="{background: '#fff'}">
           <Menu
             active-name="1-1"
             theme="light"
@@ -72,6 +75,8 @@
             <ContactManagement v-if="contentId === '1-1'"></ContactManagement>
             <LessonManagement v-if="contentId === '1-4'"></LessonManagement>
             <ChattingRoom v-if="contentId === '4-2'"></ChattingRoom>
+            <Library v-if="contentId === '2-1'"></Library>
+            <paper-reports v-if="contentId === '2-2'"></paper-reports>
           </Content>
         </Layout>
       </Layout>
@@ -82,13 +87,17 @@
 import ContactManagement from './ContactManagement/Index.vue'
 import LessonManagement from './LessonManagement/Index.vue'
 import ChattingRoom from './ChattingRoom/Index.vue'
+import Library from './Library/Index.vue'
+import PaperReports from './PaperReports/Index.vue'
 
 export default {
   name: 'Home',
   components: {
     ContactManagement,
     LessonManagement,
-    ChattingRoom
+    ChattingRoom,
+    Library,
+    PaperReports
   },
   data() {
     return {
@@ -128,23 +137,37 @@ export default {
   background: #f5f7f9;
   position: relative;
   border-radius: 4px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
-.layout-logo {
-  width: 100px;
-  height: 30px;
-  background: #5b6270;
+.layout-logo-wrap {
+  width: 330px;
+  height: 40px;
+  background: #ffffff;
   border-radius: 3px;
   float: left;
   position: relative;
-  top: 15px;
-  left: 20px;
+  top: 10px;
+  left: 0px;
+}
+.layout-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.layout-logo-title {
+  font-size: 20px;
+  font-weight: bolder;
+  position: absolute;
+  top: 0;
+  left: 44px;
+  line-height: 40px;
 }
 
 .layout-nav {
-  width: 420px;
   margin: 0 auto;
   margin-right: 0;
+  position: absolute;
+  right: 0;
 }
 </style>
