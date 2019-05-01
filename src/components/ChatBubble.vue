@@ -2,10 +2,12 @@
   <div class="chat-ctn-wrap">
     <div class="chat-header">
       <div class="chat-header-ctn">
-        <Icon type="ios-person" size="40"></Icon>
+        <!-- <Icon type="ios-person" size="40"></Icon> -->
       </div>
     </div>
-    <div class="chat-ctn" v-html="content"></div>
+    <div class="chat-ctn">
+      <div class="ctn" v-html="content"></div>
+    </div>
   </div>
 </template>
 
@@ -26,32 +28,39 @@ export default {
 
 <style scoped>
 .chat-ctn-wrap {
-  display: flex;
+  /* display: flex; */
   padding: 10px 20px;
 }
 .chat-header {
-  flex: 1;
+  /* flex: 1; */
   width: 50px;
   height: 30px;
-  margin-right: 10px;
+  margin-right: 5px;
+  float: left;
 }
 .chat-header-ctn {
-  background-color: #cccccc;
-  width: 60px;
-  height: 60px;
-  margin: 0 auto;
-  border-radius: 30px;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  border-radius: 15px;
+  border: 3px solid #cccccc;
   font-size: 14px;
   padding: 5px;
 }
 .chat-ctn {
-  flex: 6;
-  background-color: #cccccc;
-  border-radius: 4px;
-  width: 60%;
-  margin: 5px auto;
+  /* flex: 6; */
+  /* background-color: #cccccc; */
+  overflow: auto;
+  margin-left: 5px;
   font-size: 14px;
   font-weight: bold;
+}
+.ctn {
+  max-width: 800px;
+  overflow: scroll;
+  float: left;
+  border-radius: 4px;
+  border: 2px solid #cccccc;
   padding: 10px;
 }
 </style>

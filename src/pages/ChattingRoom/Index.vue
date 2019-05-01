@@ -15,7 +15,7 @@
 
 <script>
 import E from 'wangeditor'
-import { wsUrl } from '../../service/config.js'
+import {wsUrl} from '../../service/config.js'
 import ChatBubble from '../../components/ChatBubble'
 
 export default {
@@ -80,7 +80,7 @@ export default {
 
 <style>
 .chatting-input-wrap {
-  margin: 20px auto 0 auto;
+  margin-top: 20px;
   border: 1px solid #cccccc;
   width: 100%;
   height: 350px;
