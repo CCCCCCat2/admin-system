@@ -9,7 +9,12 @@
         <div class="lesson-table-item-time">
           <p>第{{index+1}}节</p>
         </div>
-        <div class="lesson-table-item" v-for="item in row" :key="item.cname">
+        <div
+          class="lesson-table-item"
+          v-for="item in row"
+          :key="item.cname"
+          @click="editLesson(item)"
+        >
           <p>
             <span v-if="JSON.stringify(item) !== '{}'">周次：</span>
             {{item.cname}}
@@ -33,6 +38,16 @@
         </div>
       </div>
     </div>
+    <Modal
+      v-model="showEditAsk"
+      title="修改课程"
+      ok-text="编辑"
+      cancel-text="删除"
+      @on-ok="openEditBox"
+      @on-cancel="deleteItem"
+    >
+      <p>请选择对该课程的操作</p>
+    </Modal>
   </div>
 </template>
 <script>
@@ -54,12 +69,22 @@ export default {
   data() {
     return {
       week: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-      lessons: []
+      lessons: [],
+      showEditAsk: false,
+      editValue: {}
     }
   },
-  methods: {},
+  methods: {
+    editLesson: function(item) {
+      console.log(item)
+      this.showEditAsk = true
+    },
+    openEditBox: function() {
+      // this.
+    },
+    deleteItem: function() {}
+  },
   mounted() {
-    console.log('ok')
     console.log(this.lessonData)
     this.lessons = transferLessons(this.lessonData.courseData)
   }

@@ -11,11 +11,14 @@
       <Card>
         <p slot="title" class="book-card-title">填写信息</p>
         <Form ref="newBookInfo" :model="newBookInfo" :label-width="80">
+          <FormItem label="编号" prop="bid">
+            <Input type="text" v-model="newBookInfo.bid"/>
+          </FormItem>
           <FormItem label="书名" prop="name">
             <Input type="text" v-model="newBookInfo.name"/>
           </FormItem>
-          <FormItem label="作者" prop="author">
-            <Input type="text" v-model="newBookInfo.author"/>
+          <FormItem label="数量" prop="number">
+            <Input type="number" v-model="newBookInfo.number"/>
           </FormItem>
           <FormItem>
             <Button type="primary" @click="handleSubmit()">确定</Button>
@@ -31,6 +34,7 @@
 import BaseTitle from '../../components/BaseTitle'
 import SubTitle from '../../components/sub-title'
 import bookList from '../Library/book-list'
+import {bookService} from '../../service/book.js'
 
 export default {
   name: 'Library',
@@ -42,7 +46,9 @@ export default {
         }
       }
     },
-    handleSubmit() {}
+    handleSubmit() {
+      bookService.insertBook(this.newBookInfo)
+    }
   },
   data() {
     return {
@@ -62,7 +68,7 @@ export default {
 
 <style scoped>
 .library-block {
-  padding: 10px 0;
+  padding: 10px 0 20px 0;
 }
 .book-card-title {
   text-align: left;
