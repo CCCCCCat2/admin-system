@@ -1,11 +1,8 @@
-import axios from 'axios'
-import {
-  baseUrl
-} from './config'
+import { baseUrl } from './config'
 
 const auth = {}
 
-auth.login = function (id, password, type) {
+auth.login = function(id, password, type) {
   return fetch(`${baseUrl}Access/Login`, {
     method: 'POST',
     body: JSON.stringify({
@@ -25,7 +22,7 @@ auth.login = function (id, password, type) {
     .catch(err => console.log(err))
 }
 
-auth.register = function (id, password, type) {
+auth.register = function(id, password, type) {
   // return axios({
   //   method: 'POST',
   //   url: `${baseUrl}Access/Register`,

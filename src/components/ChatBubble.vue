@@ -1,9 +1,7 @@
 <template>
   <div class="chat-ctn-wrap">
     <div class="chat-header">
-      <div class="chat-header-ctn">
-        <!-- <Icon type="ios-person" size="40"></Icon> -->
-      </div>
+      <Avatar icon="ios-person" size="large" style="background-color: #87d068"/>
     </div>
     <div class="chat-ctn">
       <div class="ctn" v-html="content"></div>

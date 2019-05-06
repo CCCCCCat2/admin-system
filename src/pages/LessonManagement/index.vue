@@ -1,5 +1,6 @@
 <template>
   <div>
+    <base-title title="课表管理" icon="ios-school"></base-title>
     <div class="lesson-table-wrap">
       <div class="lesson-table-row">
         <div class="spin-loading" v-if="isLoading">
@@ -7,7 +8,6 @@
         </div>
         <lesson-table :lessonData="{courseData}" v-else></lesson-table>
       </div>
-      <Button type="primary" long shape="circle" icon="md-add" size="large" @click="addNewItem">新增课程</Button>
       <Modal v-model="showCourseInsert" title="编辑课程信息" @on-ok="submitInsertCourse">
         <Form :model="courseEditData">
           <FormItem label="课程名称">
@@ -45,12 +45,14 @@
         </Form>
       </Modal>
     </div>
+    <Button type="primary" long shape="circle" icon="md-add" size="large" @click="addNewItem">新增课程</Button>
   </div>
 </template>
 
 <script>
 // import CourseItem from '../../components/CourseItem'
 import LessonTable from './lesson-table'
+import BaseTitle from '../../components/BaseTitle'
 import {courseService} from '../../service/course.js'
 
 export default {
@@ -106,10 +108,8 @@ export default {
     }
   },
   components: {
-    // CourseItem,
-    LessonTable
-    // LessonRow,
-    // LessonTableWeek
+    LessonTable,
+    BaseTitle
   },
   mounted() {
     courseService.getCourseList(sessionStorage.getItem('sid')).then(res => {

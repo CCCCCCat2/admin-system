@@ -8,6 +8,20 @@ import { baseUrl } from './config'
 */
 
 class BookService {
+  getBookList(id) {
+    return fetch(`${baseUrl}Book/Bookgetall`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      mode: 'cors',
+      body: JSON.stringify({
+        sid: id
+      })
+    })
+      .then(res => res.json())
+      .catch(err => console.log(err))
+  }
   insertBook(book) {
     return fetch(`${baseUrl}Book/Bookinsert`, {
       method: 'POST',

@@ -1,9 +1,9 @@
 <template>
-  <div class="book-list-wrap">
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
+  <div class="book-list-wrap" v-if="bookList.length !== 0">
+    <div v-for="item in bookList" :key="item.bid">
+      <book-item :name="item.name"></book-item>
     </div>
-    <div class="boook-list-item">
+    <!-- <div class="boook-list-item">
       <book-item name="悲惨世界"></book-item>
     </div>
     <div class="boook-list-item">
@@ -30,18 +30,28 @@
     </div>
     <div class="boook-list-item">
       <book-item name="悲惨世界"></book-item>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 import bookItem from '../../components/book-item'
+import {bookService} from '../../service/book.js'
 export default {
   name: 'book-list',
   data() {
-    return {}
+    return {
+      bookList: []
+    }
   },
   methods: {},
+  mounted() {
+    bookService.getBookList(sessionStorage.getItem('sid') || '').then(res => {
+      if (res.success && res.message.length !== 0) {
+        this.bookList = res.message
+      }
+    })
+  },
   components: {
     bookItem
   }
@@ -53,8 +63,4 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-.book-list-item {
-  flex: 1;
-}
 </style>
-

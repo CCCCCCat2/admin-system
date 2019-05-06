@@ -22,7 +22,9 @@ import {
   Table,
   Modal,
   Radio,
-  RadioGroup
+  RadioGroup,
+  ButtonGroup,
+  Avatar
 } from 'iview'
 import 'iview/dist/styles/iview.css'
 
@@ -49,3 +51,5 @@ Vue.component('Table', Table)
 Vue.component('Modal', Modal)
 Vue.component('Radio', Radio)
 Vue.component('RadioGroup', RadioGroup)
+Vue.component('ButtonGroup', ButtonGroup)
+Vue.component('Avatar', Avatar)

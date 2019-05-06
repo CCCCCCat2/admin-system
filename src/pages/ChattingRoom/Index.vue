@@ -1,5 +1,6 @@
 <template>
   <div>
+    <base-title title="交流平台" icon="ios-chatbubbles-outline"></base-title>
     <div class="chatting-input-wrap">
       <ChatBubble v-for="item in message" :content="item" :key="item"></ChatBubble>
     </div>
@@ -17,6 +18,7 @@
 import E from 'wangeditor'
 import {wsUrl} from '../../service/config.js'
 import ChatBubble from '../../components/ChatBubble'
+import BaseTitle from '../../components/BaseTitle'
 
 export default {
   name: 'ChattingRoom',
@@ -32,11 +34,9 @@ export default {
   },
   methods: {
     sendMessage: function() {
-      console.log('ok')
-      console.log(this.inputValue)
-      // websocketService.send(this.message)
       this.message.push(this.inputValue)
       this.inputValue = ''
+      document.querySelector('.w-e-text').innerHTML = ''
     }
   },
   mounted() {
@@ -73,7 +73,8 @@ export default {
     editorTxtContainer.style.textAlign = 'left'
   },
   components: {
-    ChatBubble
+    ChatBubble,
+    BaseTitle
   }
 }
 </script>

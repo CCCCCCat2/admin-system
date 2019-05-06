@@ -1,6 +1,4 @@
-import {
-  baseUrl
-} from './config'
+import { baseUrl } from './config'
 
 const contactApi = {}
 
@@ -26,14 +24,7 @@ return object {
   problem: string
 }
 */
-contactApi.insert = function (maillist) {
-  // return axios({
-  //   method: 'post',
-  //   url: `${baseUrl}Maillist/Mailinsert`,
-  //   data: {
-  //     maillist
-  //   }
-  // })
+contactApi.insert = function(maillist) {
   return fetch(`${baseUrl}Maillist/Mailinsert`, {
     headers: {
       'content-type': 'application/json'
@@ -46,7 +37,7 @@ contactApi.insert = function (maillist) {
     .catch(err => console.log(err))
 }
 
-contactApi.update = function (maillist) {
+contactApi.update = function(maillist) {
   return fetch(`${baseUrl}Maillist/Mailupdate`, {
     headers: {
       'content-type': 'application/json'
@@ -59,7 +50,7 @@ contactApi.update = function (maillist) {
     .catch(err => console.log(err))
 }
 
-contactApi.delete = function (maillist) {
+contactApi.delete = function(maillist) {
   return fetch(`${baseUrl}Maillist/Maildelete`, {
     headers: {
       'content-type': 'application/json'
@@ -72,7 +63,7 @@ contactApi.delete = function (maillist) {
     .catch(err => console.log(err))
 }
 
-contactApi.search = function (maillist) {
+contactApi.search = function(maillist) {
   return fetch(`${baseUrl}Maillist/Mailsearch`, {
     headers: {
       'content-type': 'application/json'

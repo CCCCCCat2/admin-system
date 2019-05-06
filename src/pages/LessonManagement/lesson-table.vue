@@ -5,15 +5,16 @@
         <div class="lesson-table-item-time blank"></div>
         <div class="lesson-table-item week" v-for="item in week" :key="item">{{item}}</div>
       </div>
+      <!-- 第一次v-for的index是行的序号，内层的childIndex是列的序号 -->
       <div class="lesson-table-row" v-for="(row,index) in lessons" :key="index">
         <div class="lesson-table-item-time">
           <p>第{{index+1}}节</p>
         </div>
         <div
           class="lesson-table-item"
-          v-for="item in row"
+          v-for="(item, childIndex) in row"
           :key="item.cname"
-          @click="editLesson(item)"
+          @click="editLesson(item, index, childIndex)"
         >
           <p>
             <span v-if="JSON.stringify(item) !== '{}'">周次：</span>
@@ -38,20 +39,67 @@
         </div>
       </div>
     </div>
-    <Modal
-      v-model="showEditAsk"
-      title="修改课程"
-      ok-text="编辑"
-      cancel-text="删除"
-      @on-ok="openEditBox"
-      @on-cancel="deleteItem"
-    >
-      <p>请选择对该课程的操作</p>
-    </Modal>
+    <div class="edit-ask-wrap" v-if="showEditAsk">
+      <div class="edit-ask-box">
+        <div class="close-btn" @click="closeEditAsk">x</div>
+        <div class="edit-ask-ctn">
+          <p>请选择您需要进行的具体操作</p>
+        </div>
+        <div class="edit-btn-group">
+          <ButtonGroup>
+            <Button type="primary" @click="openEditBox">编辑</Button>
+            <Button type="error" @click="deleteItem()">删除</Button>
+          </ButtonGroup>
+        </div>
+      </div>
+    </div>
+    <div class="edit-ask-wrap" v-if="showEditBox">
+      <div class="edit-message-box">
+        <div class="close-btn" @click="closeEditBox">x</div>
+
+        <Form :model="editValue" class="edit-form">
+          <FormItem label="课程名称">
+            <Input v-model="editValue.cname" :placeholder="'填写课程名'"/>
+          </FormItem>
+          <FormItem label="日期">
+            <select v-model="editValue.week" class="select-box">
+              <option value="周一">周一</option>
+              <option value="周二">周二</option>
+              <option value="周三">周三</option>
+            </select>
+          </FormItem>
+          <FormItem label="节次">
+            <select v-model="editValue.orders" class="select-box">
+              <option value="1">第一节</option>
+              <option value="2">第二节</option>
+              <option value="3">第三节</option>
+            </select>
+          </FormItem>
+          <FormItem label="单/双周">
+            <RadioGroup v-model="editValue.signalordouble">
+              <Radio label="single">单周</Radio>
+              <Radio label="double">双周</Radio>
+              <Radio label="both">单双周</Radio>
+            </RadioGroup>
+          </FormItem>
+          <FormItem label="教师">
+            <Input v-model="editValue.teach" :placeholder="'填写教师姓名'"/>
+          </FormItem>
+          <FormItem label="教室">
+            <Input v-model="editValue.classroom" :placeholder="'填写教室，如 教三-333 '"/>
+          </FormItem>
+          <div class="edit-class"></div>
+        </Form>
+      </div>
+    </div>
+    <!-- <Modal v-modal="showEditBox" title="编辑课程信息"> -->
+
+    <!-- </Modal> -->
   </div>
 </template>
 <script>
 import {transferLessons} from '../../utils/common.js'
+import {courseService} from '../../service/course.js'
 export default {
   name: 'LessonTable',
   props: {
@@ -71,18 +119,42 @@ export default {
       week: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
       lessons: [],
       showEditAsk: false,
-      editValue: {}
+      showEditBox: false,
+      editValue: {},
+      rowIndex: 0,
+      columnIndex: 0
     }
   },
   methods: {
-    editLesson: function(item) {
-      console.log(item)
+    editLesson: function(item, index, childIndex) {
+      // 将点击项的内容、行位置、列位置都存到data对象中
+      this.editValue = item
+      this.rowIndex = index
+      this.columnIndex = childIndex
       this.showEditAsk = true
     },
-    openEditBox: function() {
-      // this.
+    // 关闭“下一步操作”的对话框
+    closeEditAsk: function() {
+      this.showEditAsk = false
     },
-    deleteItem: function() {}
+    // 关闭“编辑课程”的对话框
+    closeEditBox: function() {
+      this.showEditBox = false
+    },
+    openEditBox: function() {
+      this.showEditAsk = false
+      this.showEditBox = true
+    },
+    deleteItem: function() {
+      courseService.deleteCourse(this.editValue).then(res => {
+        if (res.success === true) {
+          this.lessons[this.rowIndex][this.columnIndex] = {}
+        } else {
+          alert('删除课程失败！')
+        }
+        this.showEditAsk = false
+      })
+    }
   },
   mounted() {
     console.log(this.lessonData)
@@ -126,5 +198,56 @@ export default {
 }
 .lesson-table-row {
   display: flex;
+}
+/* 这两处z-index是因为侧边栏的z-index设置是900，必须比900大才能覆盖住 */
+.edit-ask-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 990;
+}
+.edit-ask-box {
+  z-index: 999;
+  position: fixed;
+  top: 200px;
+  left: 50%;
+  width: 300px;
+  height: 120px;
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #cccccc;
+}
+.edit-ask-ctn {
+  margin-top: 15px;
+}
+.edit-btn-group {
+  margin-top: 10px;
+}
+.close-btn {
+  width: 24px;
+  height: 24px;
+  border: 2px #cccccc solid;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+.edit-message-box {
+  width: 400px;
+  position: fixed;
+  left: 45%;
+  top: 50px;
+  padding: 10px 20px;
+  border: #cccccc 1px solid;
+  background-color: #ffffff;
+}
+.select-box {
+  padding: 3px 8px;
+}
+.edit-form {
+  padding-top: 20px;
 }
 </style>
