@@ -41,7 +41,8 @@
     </div>
     <div class="edit-ask-wrap" v-if="showEditAsk">
       <div class="edit-ask-box">
-        <div class="close-btn" @click="closeEditAsk">x</div>
+        <!-- <div class="close-btn" @click="closeEditAsk">x</div> -->
+        <Icon type="ios-close-circle-outline" class="close-btn" @click="closeEditAsk" size="20"/>
         <div class="edit-ask-ctn">
           <p>请选择您需要进行的具体操作</p>
         </div>
@@ -55,8 +56,8 @@
     </div>
     <div class="edit-ask-wrap" v-if="showEditBox">
       <div class="edit-message-box">
-        <div class="close-btn" @click="closeEditBox">x</div>
-
+        <!-- <div class="close-btn" @click="closeEditBox">x</div> -->
+        <Icon type="ios-close-circle-outline" class="close-btn" @click="closeEditBox" size="20"/>
         <Form :model="editValue" class="edit-form">
           <FormItem label="课程名称">
             <Input v-model="editValue.cname" :placeholder="'填写课程名'"/>
@@ -66,6 +67,10 @@
               <option value="周一">周一</option>
               <option value="周二">周二</option>
               <option value="周三">周三</option>
+              <option value="周四">周四</option>
+              <option value="周五">周五</option>
+              <option value="周六">周六</option>
+              <option value="周日">周日</option>
             </select>
           </FormItem>
           <FormItem label="节次">
@@ -73,6 +78,11 @@
               <option value="1">第一节</option>
               <option value="2">第二节</option>
               <option value="3">第三节</option>
+              <option value="4">第四节</option>
+              <option value="5">第五节</option>
+              <option value="6">第六节</option>
+              <option value="7">第七节</option>
+              <option value="8">第八节</option>
             </select>
           </FormItem>
           <FormItem label="单/双周">
@@ -100,6 +110,7 @@
 <script>
 import {transferLessons} from '../../utils/common.js'
 import {courseService} from '../../service/course.js'
+import bus from '../../bus.js'
 export default {
   name: 'LessonTable',
   props: {
@@ -146,12 +157,14 @@ export default {
       this.showEditBox = true
     },
     deleteItem: function() {
+      bus.$emit('showLoading')
       courseService.deleteCourse(this.editValue).then(res => {
         if (res.success === true) {
           this.lessons[this.rowIndex][this.columnIndex] = {}
         } else {
           alert('删除课程失败！')
         }
+        bus.$emit('closeLoading')
         this.showEditAsk = false
       })
     }
@@ -227,9 +240,6 @@ export default {
   margin-top: 10px;
 }
 .close-btn {
-  width: 24px;
-  height: 24px;
-  border: 2px #cccccc solid;
   position: absolute;
   right: 10px;
   cursor: pointer;

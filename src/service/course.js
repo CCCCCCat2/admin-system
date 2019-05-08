@@ -28,7 +28,7 @@ class CourseService {
           classroom: course.classroom,
           week: course.week,
           orders: Number(course.orders),
-          signalordouble: 'double'
+          signalordouble: course.signalordouble
         }
       ])
     }).then(res => res.json())
@@ -48,7 +48,7 @@ class CourseService {
           classroom: course.classroom,
           week: course.week,
           orders: Number(course.orders),
-          signalordouble: 'double'
+          signalordouble: course.signalordouble
         }
       ])
     })
@@ -70,7 +70,7 @@ class CourseService {
           classroom: course.classroom,
           week: course.week,
           orders: course.orders,
-          signalordouble: 'double'
+          signalordouble: course.signalordouble
         }
       ])
     })

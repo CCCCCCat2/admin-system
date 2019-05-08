@@ -24,7 +24,9 @@ import {
   Radio,
   RadioGroup,
   ButtonGroup,
-  Avatar
+  Avatar,
+  Checkbox,
+  CheckboxGroup
 } from 'iview'
 import 'iview/dist/styles/iview.css'
 
@@ -53,3 +55,5 @@ Vue.component('Radio', Radio)
 Vue.component('RadioGroup', RadioGroup)
 Vue.component('ButtonGroup', ButtonGroup)
 Vue.component('Avatar', Avatar)
+Vue.component('CheckBox', Checkbox)
+Vue.component('CheckboxGroup', CheckboxGroup)

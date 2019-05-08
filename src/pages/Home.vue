@@ -34,9 +34,8 @@
                 <Icon type="ios-navigate"></Icon>人员管理
               </template>
               <MenuItem name="1-1">通讯录管理</MenuItem>
-              <MenuItem name="1-2">考勤管理</MenuItem>
-              <MenuItem name="1-3">值日管理</MenuItem>
-              <MenuItem name="1-4">课表管理</MenuItem>
+              <MenuItem name="1-2">值日管理</MenuItem>
+              <MenuItem name="1-3">课表管理</MenuItem>
             </Submenu>
             <Submenu name="2">
               <template slot="title">
@@ -63,7 +62,7 @@
               <MenuItem name="4-2">交流平台</MenuItem>
               <MenuItem name="4-3">成员信息</MenuItem>
               <MenuItem name="4-4">组内例会</MenuItem>
-              <MenuItem name="4-4">资料归档</MenuItem>
+              <MenuItem name="4-5">资料归档</MenuItem>
             </Submenu>
           </Menu>
         </Sider>
@@ -73,7 +72,7 @@
             style="overflow: hidden"
           >
             <ContactManagement v-if="contentId === '1-1'"></ContactManagement>
-            <LessonManagement v-if="contentId === '1-4'"></LessonManagement>
+            <LessonManagement v-if="contentId === '1-3'"></LessonManagement>
             <ChattingRoom v-if="contentId === '4-2'"></ChattingRoom>
             <Library v-if="contentId === '2-1'"></Library>
             <paper-reports v-if="contentId === '2-2'"></paper-reports>

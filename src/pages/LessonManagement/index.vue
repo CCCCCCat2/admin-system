@@ -1,12 +1,19 @@
 <template>
   <div>
     <base-title title="课表管理" icon="ios-school"></base-title>
+    <add-admin :isShow="true"></add-admin>
+    <div class="search-input-wrap">
+      <Input
+        search
+        enter-button
+        placeholder="输入学生姓名"
+        v-model="searchValue"
+        @on-search="searchLessonsBySid"
+      />
+    </div>
     <div class="lesson-table-wrap">
       <div class="lesson-table-row">
-        <div class="spin-loading" v-if="isLoading">
-          <Spin size="large" style="width:300%;height:300%;"></Spin>
-        </div>
-        <lesson-table :lessonData="{courseData}" v-else></lesson-table>
+        <lesson-table :lessonData="{courseData}" v-if="isShowTable"></lesson-table>
       </div>
       <Modal v-model="showCourseInsert" title="编辑课程信息" @on-ok="submitInsertCourse">
         <Form :model="courseEditData">
@@ -19,6 +26,10 @@
               <option value="周一">周一</option>
               <option value="周二">周二</option>
               <option value="周三">周三</option>
+              <option value="周四">周四</option>
+              <option value="周五">周五</option>
+              <option value="周六">周六</option>
+              <option value="周日">周日</option>
             </select>
           </FormItem>
           <FormItem label="节次">
@@ -27,6 +38,11 @@
               <option value="1">第一节</option>
               <option value="2">第二节</option>
               <option value="3">第三节</option>
+              <option value="4">第四节</option>
+              <option value="5">第五节</option>
+              <option value="6">第六节</option>
+              <option value="7">第七节</option>
+              <option value="8">第八节</option>
             </select>
           </FormItem>
           <FormItem label="单/双周">
@@ -54,6 +70,8 @@
 import LessonTable from './lesson-table'
 import BaseTitle from '../../components/BaseTitle'
 import {courseService} from '../../service/course.js'
+import AddAdmin from '../../components/add-admin'
+import bus from '../../bus.js'
 
 export default {
   name: 'LessonManagement',
@@ -71,7 +89,8 @@ export default {
         signalordouble: ''
       },
       courseData: [],
-      isLoading: true
+      searchValue: '',
+      isShowTable: false
     }
   },
   methods: {
@@ -85,6 +104,7 @@ export default {
           if (res.success) {
             this.courseData.push(this.courseEditData)
             alert('新增课程成功！')
+            location.reload()
             this.courseEditData = {
               sid: sessionStorage.getItem('sid'),
               cname: '',
@@ -105,23 +125,26 @@ export default {
     editUpdate: function() {
       this.show = true
       this.editType = 'update'
-    }
+    },
+    searchLessonsBySid: function() {}
   },
   components: {
     LessonTable,
-    BaseTitle
+    BaseTitle,
+    AddAdmin
   },
   mounted() {
+    bus.$emit('showLoading')
     courseService.getCourseList(sessionStorage.getItem('sid')).then(res => {
       if (res.success) {
         // !!!此处需要和后端对下数据是否存在data字段里
         this.courseData = res.message
-        console.table(this.courseData)
-        this.isLoading = false
+        this.isShowTable = true
+        bus.$emit('closeLoading')
       } else {
-        // this.$Message.error('暂无课程信息')
         alert('暂无课程信息')
-        this.isLoading = false
+        this.isShowTable = true
+        bus.$emit('closeLoading')
       }
     })
   }
@@ -142,5 +165,9 @@ export default {
 }
 .select-box {
   padding: 3px 8px;
+}
+.search-input-wrap {
+  padding: 5px 20px;
+  width: 30%;
 }
 </style>
