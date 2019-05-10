@@ -14,17 +14,17 @@
           </div>
         </div>
       </Card>
-      <div class="user-center-message-box-wrap">
-        <sub-title subTitle="我的消息"></sub-title>
-        <div class="user-center-message-box">
-          <div
-            class="user-center-message"
-            v-for="(item,index) in messageDetail"
-            :key="index"
-            @click="setClickPosition(index)"
-          >
-            <p>{{item.title}}</p>
-          </div>
+    </div>
+    <div class="user-center-message-box-wrap">
+      <sub-title subTitle="我的消息"></sub-title>
+      <div class="user-center-message-box">
+        <div
+          class="user-center-message"
+          v-for="(item,index) in messageDetail"
+          :key="index"
+          @click="setClickPosition(index)"
+        >
+          <p>{{item.title}}</p>
         </div>
       </div>
     </div>
@@ -99,6 +99,7 @@ export default {
   padding-left: 20px;
 }
 .user-center-message-box-wrap {
+  max-width: 300px;
   margin: 10px auto;
   width: 100%;
 }

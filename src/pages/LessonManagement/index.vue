@@ -1,7 +1,10 @@
 <template>
   <div>
     <base-title title="课表管理" icon="ios-school"></base-title>
-    <add-admin :isShow="true"></add-admin>
+    <div class="add-admin-btn-wrap">
+      <Button type="primary" shape="circle" icon="ios-add" @click="showAddAdmin">添加管理员</Button>
+    </div>
+    <add-admin :isShow="isShowAddAdmin"></add-admin>
     <div class="search-input-wrap">
       <Input
         search
@@ -90,7 +93,8 @@ export default {
       },
       courseData: [],
       searchValue: '',
-      isShowTable: false
+      isShowTable: false,
+      isShowAddAdmin: false
     }
   },
   methods: {
@@ -126,7 +130,13 @@ export default {
       this.show = true
       this.editType = 'update'
     },
-    searchLessonsBySid: function() {}
+    searchLessonsBySid: function() {},
+    showAddAdmin: function() {
+      this.isShowAddAdmin = true
+    },
+    closeAddAdmin: function() {
+      this.isShowAddAdmin = false
+    }
   },
   components: {
     LessonTable,
@@ -135,6 +145,9 @@ export default {
   },
   mounted() {
     bus.$emit('showLoading')
+    // 这里放了一处bus的监听，是因为子组件无法修改自己被引用时候的props属性。每个使用addAdmin组件的父组件都需要添加这样的监听事件。
+    // 因为这些父组件不会被 同时 挂载，所以可以做同名，但是需要在beforeDestory周期的时候做一次off进行销毁
+    bus.$on('closeAddAdmin', this.closeAddAdmin)
     courseService.getCourseList(sessionStorage.getItem('sid')).then(res => {
       if (res.success) {
         // !!!此处需要和后端对下数据是否存在data字段里
@@ -147,6 +160,9 @@ export default {
         bus.$emit('closeLoading')
       }
     })
+  },
+  beforeDestroy() {
+    bus.$off('closeAddAdmin')
   }
 }
 </script>
@@ -169,5 +185,10 @@ export default {
 .search-input-wrap {
   padding: 5px 20px;
   width: 30%;
+}
+.add-admin-btn-wrap {
+  padding-left: 20px;
+  padding-bottom: 10px;
+  text-align: left;
 }
 </style>

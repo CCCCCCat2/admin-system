@@ -5,6 +5,7 @@ import Login from '../pages/Login.vue'
 import ContactManagement from '../pages/ContactManagement/Index.vue'
 import Register from '../pages/Register/Index.vue'
 import UserCenter from '../pages/UserCenter/Index.vue'
+import ChattingRoom from '../pages/ChattingRoom/Index.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,10 @@ const routes = [
   {
     path: '/user-center',
     component: UserCenter
+  },
+  {
+    path: '/chatting-room/:id',
+    component: ChattingRoom
   }
 ]
 

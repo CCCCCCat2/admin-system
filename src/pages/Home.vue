@@ -54,7 +54,7 @@
               </template>
               <MenuItem name="3-1">信息登记</MenuItem>
             </Submenu>
-            <Submenu name="4">
+            <!-- <Submenu name="4">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>项目管理
               </template>
@@ -63,7 +63,10 @@
               <MenuItem name="4-3">成员信息</MenuItem>
               <MenuItem name="4-4">组内例会</MenuItem>
               <MenuItem name="4-5">资料归档</MenuItem>
-            </Submenu>
+            </Submenu>-->
+            <MenuItem name="4">
+              <Icon type="ios-keypad"></Icon>交流平台
+            </MenuItem>
           </Menu>
         </Sider>
         <Layout :style="{padding: '0 24px 24px'}">
@@ -73,9 +76,9 @@
           >
             <ContactManagement v-if="contentId === '1-1'"></ContactManagement>
             <LessonManagement v-if="contentId === '1-3'"></LessonManagement>
-            <ChattingRoom v-if="contentId === '4-2'"></ChattingRoom>
             <Library v-if="contentId === '2-1'"></Library>
             <paper-reports v-if="contentId === '2-2'"></paper-reports>
+            <project-management v-if="contentId === '4'"></project-management>
           </Content>
         </Layout>
       </Layout>
@@ -88,6 +91,7 @@ import LessonManagement from './LessonManagement/Index.vue'
 import ChattingRoom from './ChattingRoom/Index.vue'
 import Library from './Library/Index.vue'
 import PaperReports from './PaperReports/Index.vue'
+import ProjectManagement from './ProjectManagement/Index'
 
 export default {
   name: 'Home',
@@ -96,7 +100,8 @@ export default {
     LessonManagement,
     ChattingRoom,
     Library,
-    PaperReports
+    PaperReports,
+    ProjectManagement
   },
   data() {
     return {

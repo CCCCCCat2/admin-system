@@ -17,3 +17,7 @@ export interface BookType {
   name: string
   number: number
 }
+
+export interface ProjectMembers {
+  sid: string
+}

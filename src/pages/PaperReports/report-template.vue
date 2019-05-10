@@ -53,5 +53,3 @@ export default {
   padding-top: 10px;
 }
 </style>
-
-

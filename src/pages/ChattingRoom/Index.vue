@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chatting-room-wrap">
     <base-title title="交流平台" icon="ios-chatbubbles-outline"></base-title>
     <div class="chatting-input-wrap">
       <ChatBubble v-for="item in message" :content="item" :key="item"></ChatBubble>
@@ -11,14 +11,17 @@
       </div>
       <!-- <Button @click="sendMessage">发送</Button> -->
     </div>
+    <div class="chatting-room-members-lists">
+      <member-list-item :sid="item.sid" v-for="item in memberList" :key="item.sid"></member-list-item>
+    </div>
   </div>
 </template>
 
 <script>
 import E from 'wangeditor'
-import {wsUrl} from '../../service/config.js'
 import ChatBubble from '../../components/ChatBubble'
 import BaseTitle from '../../components/BaseTitle'
+import memberListItem from './member-list-item'
 
 export default {
   name: 'ChattingRoom',
@@ -29,7 +32,18 @@ export default {
         max_height: 200,
         min_height: 200
       },
-      message: []
+      message: [],
+      memberList: [
+        {
+          sid: '1929901'
+        },
+        {
+          sid: '234567'
+        },
+        {
+          sid: '456789'
+        }
+      ]
     }
   },
   methods: {
@@ -74,24 +88,29 @@ export default {
   },
   components: {
     ChatBubble,
-    BaseTitle
+    BaseTitle,
+    memberListItem
   }
 }
 </script>
 
 <style>
+.chatting-room-wrap {
+  min-width: 750px;
+  overflow: auto;
+  padding: 20px;
+}
 .chatting-input-wrap {
   margin-top: 20px;
   border: 1px solid #cccccc;
-  width: 100%;
+  width: 70%;
   height: 350px;
   overflow: scroll;
 }
 .chatting-input {
 }
 .editor-wrap {
-  width: 100%;
-  margin: 0 auto;
+  width: 70%;
   overflow: hidden;
 }
 .send-btn-wrap {
@@ -106,5 +125,14 @@ export default {
 }
 .send-btn :hover {
   cursor: pointer;
+}
+.chatting-room-members-lists {
+  width: 30%;
+  height: 540px;
+  border: 1px solid #cccccc;
+  border-left: 0;
+  position: absolute;
+  top: 70px;
+  left: 69%;
 }
 </style>

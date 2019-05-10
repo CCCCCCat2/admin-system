@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+import bus from '../bus.js'
 export default {
   name: 'AddAdmin',
   props: {
@@ -53,9 +54,14 @@ export default {
     }
   },
   methods: {
-    submitSelected: function() {},
+    submitSelected: function() {
+      bus.$emit('closeAddAdmin')
+    },
     clearSelected: function() {
       this.studentsSelected = []
+    },
+    closeBox: function() {
+      bus.$emit('closeAddAdmin')
     }
   },
   components: {}
