@@ -1,5 +1,15 @@
 <template>
   <div class="lesson-table-wrap">
+    <div class="lesson-table-export-file">
+      <Button
+        type="success"
+        shape="circle"
+        icon="md-arrow-round-down"
+        size="large"
+        style="display: flex;"
+        @click="exportLessonTable"
+      >导出课表</Button>
+    </div>
     <div class="lesson-table">
       <div class="lesson-table-row">
         <div class="lesson-table-item-time blank"></div>
@@ -13,32 +23,35 @@
         <div
           class="lesson-table-item"
           v-for="(item, childIndex) in row"
-          :key="item.cname"
+          :key="childIndex+100"
           @click="editLesson(item, index, childIndex)"
         >
-          <p>
-            <span v-if="JSON.stringify(item) !== '{}'">周次：</span>
-            {{item.cname}}
-          </p>
-          <p>
-            <span v-if="JSON.stringify(item) !== '{}'">教师：</span>
-            {{item.teach}}
-          </p>
-          <p>
-            <span v-if="JSON.stringify(item) !== '{}'">教室：</span>
-            {{item.classroom}}
-          </p>
-          <p>
-            <span v-if="JSON.stringify(item) !== '{}'">周次：</span>
-            {{item.week}}
-          </p>
-          <p>
-            <span v-if="JSON.stringify(item) !== '{}'">节次：</span>
-            {{item.orders}}
-          </p>
+          <div v-for="lessons in item" :key="lessons.name">
+            <p>
+              <span v-if="JSON.stringify(lessons) !== '{}'">周次：</span>
+              {{lessons.cname}}
+            </p>
+            <p>
+              <span v-if="JSON.stringify(lessons) !== '{}'">教师：</span>
+              {{lessons.teach}}
+            </p>
+            <p>
+              <span v-if="JSON.stringify(lessons) !== '{}'">教室：</span>
+              {{lessons.classroom}}
+            </p>
+            <p>
+              <span v-if="JSON.stringify(lessons) !== '{}'">周次：</span>
+              {{lessons.week}}
+            </p>
+            <p>
+              <span v-if="JSON.stringify(lessons) !== '{}'">节次：</span>
+              {{lessons.orders}}
+            </p>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="edit-ask-wrap" v-if="showEditAsk">
       <div class="edit-ask-box">
         <!-- <div class="close-btn" @click="closeEditAsk">x</div> -->
@@ -111,6 +124,7 @@
 import {transferLessons} from '../../utils/common.js'
 import {courseService} from '../../service/course.js'
 import bus from '../../bus.js'
+import XLSX from 'xlsx'
 export default {
   name: 'LessonTable',
   props: {
@@ -167,10 +181,23 @@ export default {
         bus.$emit('closeLoading')
         this.showEditAsk = false
       })
+    },
+    exportLessonTable: function() {
+      const exportFile = XLSX.utils.aoa_to_sheet(this.lessons)
+    },
+    rewriteTable: function() {
+      courseService.multiSearchCourse().then(res => {
+        console.log(res.message)
+      })
     }
   },
   mounted() {
     console.log(this.lessonData)
+    bus.$on('setCourseSearchResult', ids => {
+      courseService.multiSearchCourse(ids).then(res => {
+        console.log(res.message)
+      })
+    })
     this.lessons = transferLessons(this.lessonData.courseData)
   }
 }
@@ -178,7 +205,7 @@ export default {
 <style scoped>
 .lesson-table-wrap {
   width: 100%;
-  margin: 10px auto;
+  margin: 0px auto;
   overflow: auto;
 }
 
@@ -259,5 +286,10 @@ export default {
 }
 .edit-form {
   padding-top: 20px;
+}
+.lesson-table-export-file {
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative;
 }
 </style>

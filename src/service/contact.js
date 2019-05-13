@@ -76,4 +76,16 @@ contactApi.search = function(maillist) {
     .catch(err => console.log(err))
 }
 
+contactApi.getList = function() {
+  return fetch(`${baseUrl}Maillist/Mailsearch`, {
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'GET',
+    mode: 'cors'
+  })
+    .then(res => res.json())
+    .catch(err => console.log(err))
+}
+
 export default contactApi

@@ -13,6 +13,33 @@ class CourseService {
       })
     }).then(res => res.json())
   }
+  // 课表搜索返回的是数组
+  searchCourse(id) {
+    return fetch(`${baseUrl}Tcourse/Tcoursesearch`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-mock-response-name': 'single-search'
+      },
+      mode: 'cors',
+      body: JSON.stringify({
+        sid: id
+      })
+    }).then(res => res.json())
+  }
+  multiSearchCourse(ids) {
+    return fetch(`${baseUrl}Tcourse/Tcoursesearch`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-mock-response-name': 'multi-search'
+      },
+      mode: 'cors',
+      body: JSON.stringify({
+        sid: ids
+      })
+    }).then(res => res.json())
+  }
   insertCourse(course) {
     return fetch(`${baseUrl}Tcourse/Tcourseinsert`, {
       method: 'POST',

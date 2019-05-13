@@ -28,6 +28,10 @@
         </div>
       </div>
     </div>
+    <div class="user-center-book-list-wrap">
+      <sub-title subTitle="我的借书清单"></sub-title>
+      <Table :columns="bookColumn" :data="bookList"></Table>
+    </div>
     <div class="user-center-message-detail-wrap" v-if="isShowDetail">
       <div class="user-center-message-detail">
         <div class="user-center-message-close-btn">
@@ -64,7 +68,59 @@ export default {
           content: '哈哈哈哈这是消息详细内容真是酷炫！！！！！！！！'
         }
       ],
-      clickPosition: 0
+      bookColumn: [
+        {
+          title: '编号',
+          key: 'bid'
+        },
+        {
+          title: '书名',
+          key: 'name'
+        },
+        {
+          title: '借书时间',
+          key: 'borrowTime'
+        },
+        {
+          title: '操作',
+          key: 'operation',
+          width: 120,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.borrowBook()
+                    }
+                  }
+                },
+                '还书'
+              )
+            ])
+          }
+        }
+      ],
+      bookList: [
+        {
+          name: '计算机组成原理',
+          bid: '30012121',
+          borrowTime: '2019-03-06'
+        },
+        {
+          name: '计算机网络',
+          bid: '40012384',
+          borrowTime: '2019-01-08'
+        }
+      ],
+      clickPosition: 0,
+      clickPositionForBook: 0
     }
   },
   methods: {
@@ -72,9 +128,13 @@ export default {
       this.isShowDetail = true
       this.clickPosition = index
     },
+    setClickPositionForBook: function(index) {
+      this.clickPositionForBook = index
+    },
     closeBox: function() {
       this.isShowDetail = false
-    }
+    },
+    borrowBook: function() {}
   },
   components: {
     BaseTitle,
@@ -99,7 +159,6 @@ export default {
   padding-left: 20px;
 }
 .user-center-message-box-wrap {
-  max-width: 300px;
   margin: 10px auto;
   width: 100%;
 }
@@ -142,5 +201,19 @@ export default {
 .user-center-message-detail-ctn {
   padding-top: 25px;
   font-size: 14px;
+}
+.user-center-book-list-wrap {
+  margin: 10px auto;
+  width: 100%;
+}
+.user-center-book-list-box {
+}
+.user-center-book {
+  padding: 10px 20px;
+  background-color: #ffffff;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #cccccc;
+  cursor: pointer;
 }
 </style>

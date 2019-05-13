@@ -4,7 +4,8 @@
 
     <div class="library-block">
       <sub-title subTitle="书籍列表"></sub-title>
-      <book-list></book-list>
+      <!-- <book-list></book-list> -->
+      <new-book-list :bookList="bookList"></new-book-list>
     </div>
     <div class="library-block">
       <sub-title subTitle="新书登记"></sub-title>
@@ -12,13 +13,13 @@
         <p slot="title" class="book-card-title">填写信息</p>
         <Form ref="newBookInfo" :model="newBookInfo" :label-width="80">
           <FormItem label="编号" prop="bid">
-            <Input type="text" v-model="newBookInfo.bid"/>
+            <Input v-model="newBookInfo.bid"/>
           </FormItem>
           <FormItem label="书名" prop="name">
-            <Input type="text" v-model="newBookInfo.name"/>
+            <Input v-model="newBookInfo.name"/>
           </FormItem>
           <FormItem label="数量" prop="number">
-            <Input type="number" v-model="newBookInfo.number"/>
+            <Input v-model="newBookInfo.number"/>
           </FormItem>
           <FormItem>
             <Button type="primary" @click="handleSubmit()">确定</Button>
@@ -33,7 +34,8 @@
 <script>
 import BaseTitle from '../../components/BaseTitle'
 import SubTitle from '../../components/sub-title'
-import bookList from '../Library/book-list'
+import bookList from './book-list'
+import NewBookList from './new-book-list'
 import {bookService} from '../../service/book.js'
 
 export default {
@@ -55,13 +57,22 @@ export default {
       newBookInfo: {
         name: '',
         author: ''
-      }
+      },
+      bookList: []
     }
   },
   components: {
     bookList,
     BaseTitle,
-    SubTitle
+    SubTitle,
+    NewBookList
+  },
+  mounted() {
+    bookService.getBookList(sessionStorage.getItem('sid') || '').then(res => {
+      if (res.success && res.message.length !== 0) {
+        this.bookList = res.message
+      }
+    })
   }
 }
 </script>

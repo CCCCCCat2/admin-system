@@ -9,13 +9,16 @@
           </div>
           <div class="layout-nav">
             <MenuItem name="1" v-if="!isLogin">
-              <Icon type="ios-navigate"></Icon>登录
+              <Icon type="ios-log-in"></Icon>登录
             </MenuItem>
             <MenuItem name="2" v-if="!isLogin">
               <Icon type="ios-keypad"></Icon>注册
             </MenuItem>
             <MenuItem name="3" v-if="isLogin">
-              <Icon type="ios-analytics"></Icon>退出登录
+              <Icon type="ios-person"></Icon>个人中心
+            </MenuItem>
+            <MenuItem name="4" v-if="isLogin">
+              <Icon type="ios-log-out"></Icon>退出登录
             </MenuItem>
           </div>
         </Menu>
@@ -54,18 +57,8 @@
               </template>
               <MenuItem name="3-1">信息登记</MenuItem>
             </Submenu>
-            <!-- <Submenu name="4">
-              <template slot="title">
-                <Icon type="ios-navigate"></Icon>项目管理
-              </template>
-              <MenuItem name="4-1">项目组</MenuItem>
-              <MenuItem name="4-2">交流平台</MenuItem>
-              <MenuItem name="4-3">成员信息</MenuItem>
-              <MenuItem name="4-4">组内例会</MenuItem>
-              <MenuItem name="4-5">资料归档</MenuItem>
-            </Submenu>-->
             <MenuItem name="4">
-              <Icon type="ios-keypad"></Icon>交流平台
+              <Icon type="ios-chatbubbles"></Icon>交流平台
             </MenuItem>
           </Menu>
         </Sider>
@@ -75,9 +68,12 @@
             style="overflow: hidden"
           >
             <ContactManagement v-if="contentId === '1-1'"></ContactManagement>
+            <Duty v-if="contentId === '1-2'"></Duty>
             <LessonManagement v-if="contentId === '1-3'"></LessonManagement>
             <Library v-if="contentId === '2-1'"></Library>
             <paper-reports v-if="contentId === '2-2'"></paper-reports>
+            <Contract v-if="contentId === '2-3'"></Contract>
+            <expense-account v-if="contentId === '2-4'"></expense-account>
             <project-management v-if="contentId === '4'"></project-management>
           </Content>
         </Layout>
@@ -92,6 +88,9 @@ import ChattingRoom from './ChattingRoom/Index.vue'
 import Library from './Library/Index.vue'
 import PaperReports from './PaperReports/Index.vue'
 import ProjectManagement from './ProjectManagement/Index'
+import Contract from './Contract/Index'
+import ExpenseAccount from './ExpenseAccount/Index'
+import Duty from './Duty/Index'
 
 export default {
   name: 'Home',
@@ -101,7 +100,10 @@ export default {
     ChattingRoom,
     Library,
     PaperReports,
-    ProjectManagement
+    ProjectManagement,
+    Contract,
+    ExpenseAccount,
+    Duty
   },
   data() {
     return {
@@ -121,6 +123,9 @@ export default {
           this.$router.push('/register')
           break
         case '3':
+          this.$router.push('/user-center')
+          break
+        case '4':
           sessionStorage.removeItem('isLogin')
           sessionStorage.removeItem('sid')
           location.reload()

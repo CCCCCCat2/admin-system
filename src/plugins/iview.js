@@ -26,7 +26,8 @@ import {
   ButtonGroup,
   Avatar,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Upload
 } from 'iview'
 import 'iview/dist/styles/iview.css'
 
@@ -57,3 +58,4 @@ Vue.component('ButtonGroup', ButtonGroup)
 Vue.component('Avatar', Avatar)
 Vue.component('CheckBox', Checkbox)
 Vue.component('CheckboxGroup', CheckboxGroup)
+Vue.component('Upload', Upload)

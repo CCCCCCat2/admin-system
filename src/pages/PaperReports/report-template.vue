@@ -11,6 +11,7 @@
     <div class="report-tpl-list">
       <div class="word-files-list">
         <sub-title subTitle="其他纸质报告模板"></sub-title>
+        <Table :columns="reportColumn" :data="reportListData"></Table>
       </div>
     </div>
   </div>
@@ -22,9 +23,63 @@ export default {
   name: 'ReportTemplate',
   props: {},
   data() {
-    return {}
+    return {
+      reportColumn: [
+        {
+          title: '编号',
+          key: 'rid'
+        },
+        {
+          title: '报告名',
+          key: 'name'
+        },
+        {
+          title: '上传者',
+          key: 'submitter'
+        },
+        {
+          title: '操作',
+          key: 'operation',
+          width: 120,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.downloadFile()
+                    }
+                  }
+                },
+                '还书'
+              )
+            ])
+          }
+        }
+      ],
+      reportListData: [
+        {
+          rid: '4001234',
+          name: '网络实验报告',
+          submitter: '王老师'
+        },
+        {
+          rid: '4005678',
+          name: '计算机组成实验报告',
+          submitter: '高老师'
+        }
+      ]
+    }
   },
-  methods: {},
+  methods: {
+    downloadFile: function() {}
+  },
   components: {
     SubTitle
   }

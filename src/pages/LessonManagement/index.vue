@@ -4,8 +4,12 @@
     <div class="add-admin-btn-wrap">
       <Button type="primary" shape="circle" icon="ios-add" @click="showAddAdmin">添加管理员</Button>
     </div>
+    <div class="add-admin-btn-wrap">
+      <Button type="primary" shape="circle" icon="ios-search" @click="showSelectStudents">搜索课表</Button>
+    </div>
     <add-admin :isShow="isShowAddAdmin"></add-admin>
-    <div class="search-input-wrap">
+    <select-students :isShow="isShowSelectStudents" :studentsList="studentsList"></select-students>
+    <!-- <div class="search-input-wrap">
       <Input
         search
         enter-button
@@ -13,7 +17,7 @@
         v-model="searchValue"
         @on-search="searchLessonsBySid"
       />
-    </div>
+    </div>-->
     <div class="lesson-table-wrap">
       <div class="lesson-table-row">
         <lesson-table :lessonData="{courseData}" v-if="isShowTable"></lesson-table>
@@ -65,6 +69,19 @@
       </Modal>
     </div>
     <Button type="primary" long shape="circle" icon="md-add" size="large" @click="addNewItem">新增课程</Button>
+    <div class="import-export-lesson-table">
+      <div class="upload-input-wrap">
+        <input type="file" name accept=".xlsx, .xls" class="upload-input" id="file-input">
+        <Button
+          type="primary"
+          shape="circle"
+          icon="md-arrow-round-up"
+          size="large"
+          style="margin-right: 5px"
+          @click="uploadLessonsTable"
+        >确定上传</Button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -73,8 +90,11 @@
 import LessonTable from './lesson-table'
 import BaseTitle from '../../components/BaseTitle'
 import {courseService} from '../../service/course.js'
+import contactApi from '../../service/contact.js'
 import AddAdmin from '../../components/add-admin'
+import selectStudents from './select-students'
 import bus from '../../bus.js'
+import XLSX from 'xlsx'
 
 export default {
   name: 'LessonManagement',
@@ -93,8 +113,10 @@ export default {
       },
       courseData: [],
       searchValue: '',
+      studentsList: [],
       isShowTable: false,
-      isShowAddAdmin: false
+      isShowAddAdmin: false,
+      isShowSelectStudents: false
     }
   },
   methods: {
@@ -134,20 +156,56 @@ export default {
     showAddAdmin: function() {
       this.isShowAddAdmin = true
     },
+    showSelectStudents: function() {
+      this.isShowSelectStudents = true
+    },
     closeAddAdmin: function() {
       this.isShowAddAdmin = false
+    },
+    closeSelectStudents: function() {
+      this.isShowSelectStudents = false
+    },
+    uploadLessonsTable: function() {
+      let input = document.querySelector('#file-input')
+      const reader = new FileReader()
+      reader.onload = function(e) {
+        let data = new Uint8Array(e.target.result)
+        let workbook = XLSX.read(data, {type: 'array'})
+        console.table(workbook.Strings)
+        console.log(workbook.Strings[15].h)
+        console.log(workbook.Strings[15].r)
+        console.log(workbook.Strings[15].t)
+        /* DO SOMETHING WITH workbook HERE */
+      }
+      reader.readAsArrayBuffer(input.files[0])
+    },
+    exportLessonTable: function() {
+      console.log(this.courseData)
+      const exportFile = XLSX.utils.aoa_to_sheet(this.courseData)
+      console.log(exportFile)
     }
   },
   components: {
     LessonTable,
     BaseTitle,
-    AddAdmin
+    AddAdmin,
+    selectStudents
   },
   mounted() {
     bus.$emit('showLoading')
     // 这里放了一处bus的监听，是因为子组件无法修改自己被引用时候的props属性。每个使用addAdmin组件的父组件都需要添加这样的监听事件。
     // 因为这些父组件不会被 同时 挂载，所以可以做同名，但是需要在beforeDestory周期的时候做一次off进行销毁
     bus.$on('closeAddAdmin', this.closeAddAdmin)
+    bus.$on('closeSelectStudents', this.closeSelectStudents)
+    contactApi
+      .getList()
+      .then(res => {
+        console.log(res)
+        if (res.success) {
+          this.studentsList = res.message
+        }
+      })
+      .catch(err => console.log(err))
     courseService.getCourseList(sessionStorage.getItem('sid')).then(res => {
       if (res.success) {
         // !!!此处需要和后端对下数据是否存在data字段里
@@ -190,5 +248,10 @@ export default {
   padding-left: 20px;
   padding-bottom: 10px;
   text-align: left;
+}
+.import-export-lesson-table {
+  margin: 10px auto;
+}
+.upload-input {
 }
 </style>

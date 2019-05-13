@@ -3,34 +3,6 @@
     <div v-for="item in bookList" :key="item.bid">
       <book-item :name="item.name"></book-item>
     </div>
-    <!-- <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>
-
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>
-    <div class="boook-list-item">
-      <book-item name="悲惨世界"></book-item>
-    </div>-->
   </div>
 </template>
 
