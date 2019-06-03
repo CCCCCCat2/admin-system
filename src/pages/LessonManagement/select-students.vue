@@ -11,6 +11,7 @@
       <ButtonGroup>
         <Button type="primary" @click="submitSelected">确定</Button>
         <Button type="error" @click="clearSelected">清空</Button>
+        <Button type="info" @click="clearSelected">全选</Button>
       </ButtonGroup>
     </div>
   </div>
@@ -28,14 +29,17 @@ export default {
   },
   data() {
     return {
-      studentsSelected: []
+      studentsSelected: [],
+      checkAll: false,
+      indeterminate: true
     }
   },
   methods: {
     submitSelected: function() {
       console.log(this.studentsSelected)
-      courseService.searchCourse(this.studentsSelected).then(res => {
+      courseService.multiSearchCourse(this.studentsSelected).then(res => {
         if (res.success) {
+          console.log(res)
           bus.$emit('setCourseSearchResult', res.message)
         }
       })

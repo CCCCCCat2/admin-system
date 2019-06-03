@@ -1,5 +1,8 @@
 <template>
   <div class="book-list-wrap">
+    <div class="add-admin-btn-wrap">
+      <Button type="primary" shape="circle" icon="ios-search">搜索图书</Button>
+    </div>
     <Table :columns="bookListColumn" :data="bookList" @on-row-click="rowClick"></Table>
   </div>
 </template>
@@ -55,7 +58,10 @@ export default {
     }
   },
   methods: {
-    borrowBook: function() {},
+    borrowBook: function() {
+      this.bookList[this.rowIndex]['number'] =
+        this.bookList[this.rowIndex]['number'] - 1
+    },
     rowClick: function() {
       this.rowIndex = index
       this.bookMessage = this.bookList[index]
@@ -65,4 +71,9 @@ export default {
 }
 </script>
 <style scoped>
+.add-admin-btn-wrap {
+  padding-left: 0;
+  padding-bottom: 10px;
+  text-align: left;
+}
 </style>

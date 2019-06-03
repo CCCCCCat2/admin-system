@@ -48,7 +48,7 @@ export default {
                 'Button',
                 {
                   props: {
-                    type: 'primary',
+                    type: 'info',
                     size: 'small'
                   },
                   on: {
@@ -57,7 +57,7 @@ export default {
                     }
                   }
                 },
-                '还书'
+                '下载'
               )
             ])
           }
@@ -78,7 +78,9 @@ export default {
     }
   },
   methods: {
-    downloadFile: function() {}
+    downloadFile: function() {
+      window.open('http://www.wiihame.cn/static-resource/word-template.docx')
+    }
   },
   components: {
     SubTitle

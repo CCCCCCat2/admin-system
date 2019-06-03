@@ -28,11 +28,10 @@ class CourseService {
     }).then(res => res.json())
   }
   multiSearchCourse(ids) {
-    return fetch(`${baseUrl}Tcourse/Tcoursesearch`, {
+    return fetch(`${baseUrl}Tcourse/TcourseMultisearch`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json',
-        'x-mock-response-name': 'multi-search'
+        'content-type': 'application/json'
       },
       mode: 'cors',
       body: JSON.stringify({

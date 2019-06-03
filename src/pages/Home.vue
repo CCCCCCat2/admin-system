@@ -45,7 +45,7 @@
                 <Icon type="ios-keypad"></Icon>日常业务
               </template>
               <MenuItem name="2-1">图书文献</MenuItem>
-              <MenuItem name="2-2">纸质报告</MenuItem>
+              <MenuItem name="2-2">学生阶段报告</MenuItem>
               <MenuItem name="2-3">合同协议</MenuItem>
               <MenuItem name="2-4">报销单</MenuItem>
               <MenuItem name="2-5">报箱续订</MenuItem>
@@ -57,9 +57,13 @@
               </template>
               <MenuItem name="3-1">信息登记</MenuItem>
             </Submenu>
-            <MenuItem name="4">
-              <Icon type="ios-chatbubbles"></Icon>交流平台
-            </MenuItem>
+            <Submenu name="4">
+              <template slot="title">
+                <Icon type="md-document"></Icon>项目管理
+              </template>
+              <MenuItem name="4-1">交流平台</MenuItem>
+              <MenuItem name="4-2">项目文档</MenuItem>
+            </Submenu>
           </Menu>
         </Sider>
         <Layout :style="{padding: '0 24px 24px'}">
@@ -74,7 +78,11 @@
             <paper-reports v-if="contentId === '2-2'"></paper-reports>
             <Contract v-if="contentId === '2-3'"></Contract>
             <expense-account v-if="contentId === '2-4'"></expense-account>
-            <project-management v-if="contentId === '4'"></project-management>
+            <project-management v-if="contentId === '4-1'"></project-management>
+            <report-box v-if="contentId === '2-5'"></report-box>
+            <device-management v-if="contentId === '3-1'"></device-management>
+            <info-check-in v-if="contentId === '2-6'"></info-check-in>
+            <project-document v-if="contentId ==='4-2'"></project-document>
           </Content>
         </Layout>
       </Layout>
@@ -91,6 +99,10 @@ import ProjectManagement from './ProjectManagement/Index'
 import Contract from './Contract/Index'
 import ExpenseAccount from './ExpenseAccount/Index'
 import Duty from './Duty/Index'
+import ReportBox from './ReportBox/Index'
+import DeviceManagement from './DeviceManagement/Index'
+import InfoCheckIn from './InfoCheckIn/Index'
+import ProjectDocument from './ProjectDocument/Index'
 
 export default {
   name: 'Home',
@@ -103,7 +115,11 @@ export default {
     ProjectManagement,
     Contract,
     ExpenseAccount,
-    Duty
+    Duty,
+    ReportBox,
+    InfoCheckIn,
+    DeviceManagement,
+    ProjectDocument
   },
   data() {
     return {

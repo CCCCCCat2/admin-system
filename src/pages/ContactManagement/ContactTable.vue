@@ -10,6 +10,24 @@
         size="large"
         @click="addNewItem"
       >新增通讯录条目</Button>
+      <Button
+        type="info"
+        long
+        shape="circle"
+        icon="md-arrow-round-down"
+        size="large"
+        @click="exportFile"
+        style="margin: 10px auto;"
+      >导出通讯录</Button>
+      <input type="file" name accept=".xlsx, .xls" class="upload-input" id="file-input">
+      <Button
+        type="primary"
+        shape="circle"
+        icon="md-arrow-round-up"
+        size="large"
+        style="margin-right: 5px"
+        @click="uploadLessonsTable"
+      >确定上传</Button>
     </div>
     <Modal v-model="show" title="编辑通信信息" @on-ok="submitAdd">
       <Form v-model="contactMessage">
@@ -90,7 +108,7 @@ export default {
     submitAdd: function() {
       if (this.editType === 'insert') {
         contactApi
-          .insert(Object.assign(this.contactMessage, { kind: 1 }))
+          .insert(Object.assign(this.contactMessage, {kind: 1}))
           .then(res => {
             if (res.success) {
               this.contactData.push(this.contactMessage)
@@ -101,7 +119,7 @@ export default {
           })
       } else {
         contactApi
-          .update(Object.assign(this.contactData[this.rowIndex], { kind: 1 }))
+          .update(Object.assign(this.contactData[this.rowIndex], {kind: 1}))
           .then(res => {
             if (res.success) {
               this.contactData[this.rowIndex] = this.contactData
@@ -117,7 +135,7 @@ export default {
     },
     submitDelete: function() {
       contactApi
-        .delete(Object.assign(this.contactData, { kind: 1 }))
+        .delete(Object.assign(this.contactData, {kind: 1}))
         .then(res => {
           if (res.success) {
             this.contactData.splice(this.rowIndex, 1)
@@ -135,6 +153,10 @@ export default {
       console.log('change')
       this.contactData.grade = d
       console.log(this.contactData)
+    },
+    uploadLessonsTable: function() {},
+    exportFile: function() {
+      window.open('http://www.wiihame.cn/static-resource/test.xlsx')
     }
   },
   data() {

@@ -111,7 +111,12 @@
           <FormItem label="教室">
             <Input v-model="editValue.classroom" :placeholder="'填写教室，如 教三-333 '"/>
           </FormItem>
-          <div class="edit-class"></div>
+          <div class="edit-class">
+            <ButtonGroup>
+              <Button type="primary" @click="submitEdit">确定</Button>
+              <Button type="error" @click="closeEditBox">取消</Button>
+            </ButtonGroup>
+          </div>
         </Form>
       </div>
     </div>
@@ -184,19 +189,24 @@ export default {
     },
     exportLessonTable: function() {
       const exportFile = XLSX.utils.aoa_to_sheet(this.lessons)
+      window.open('http://www.wiihame.cn/static-resource/test.xlsx')
     },
     rewriteTable: function() {
       courseService.multiSearchCourse().then(res => {
-        console.log(res.message)
+        if (res.success) {
+          this.lessons = res.message
+        }
       })
+    },
+    submitEdit: function() {
+      this.showEditBox = false
+      alert('编辑成功')
     }
   },
   mounted() {
     console.log(this.lessonData)
-    bus.$on('setCourseSearchResult', ids => {
-      courseService.multiSearchCourse(ids).then(res => {
-        console.log(res.message)
-      })
+    bus.$on('setCourseSearchResult', lessons => {
+      this.lessons = transferLessons(lessons)
     })
     this.lessons = transferLessons(this.lessonData.courseData)
   }

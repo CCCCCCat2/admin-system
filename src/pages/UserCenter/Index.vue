@@ -6,10 +6,15 @@
         <div class="user-center-header">
           <Avatar style="background-color: #87d068" icon="ios-person"/>
           <div class="user-person-info">
-            <p>学生</p>
+            <p>姓名：陈老师</p>
             <p>
-              <span>账号</span>
-              <span>年级</span>
+              <span>账号：2019211309</span>
+            </p>
+            <p v-if="!isTeacher">
+              <span>年级：</span>
+            </p>
+            <p>
+              <span>个人权限：系统管理员</span>
             </p>
           </div>
         </div>
@@ -55,17 +60,17 @@ export default {
       isShowDetail: false,
       messageDetail: [
         {
-          title: '这事第一条消息',
+          title: '您有1条消息',
+          content: '您有一本图书将在三天后到期，请注意还书'
+        },
+        {
+          title: '您有1条消息',
+          content: '本周三下午三点有关于下学期课题的选题会议，请按时参与'
+        },
+        {
+          title: '您有1条消息',
           content:
-            '哈哈哈哈这是消息详细内容哈哈哈哈这是消息详细内容哈哈哈哈这是消息详细内容'
-        },
-        {
-          title: '您有1条消息',
-          content: '哈哈哈哈这是消息详细内容哎呀妈呀'
-        },
-        {
-          title: '您有1条消息',
-          content: '哈哈哈哈这是消息详细内容真是酷炫！！！！！！！！'
+            '暑假留校相关通知已在教务网站发布，请尽早阅读公告，办理留校手续'
         }
       ],
       bookColumn: [
@@ -97,7 +102,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.borrowBook()
+                      this.returnBook()
                     }
                   }
                 },
@@ -120,7 +125,8 @@ export default {
         }
       ],
       clickPosition: 0,
-      clickPositionForBook: 0
+      clickPositionForBook: 0,
+      isTeacher: true
     }
   },
   methods: {
@@ -134,7 +140,11 @@ export default {
     closeBox: function() {
       this.isShowDetail = false
     },
-    borrowBook: function() {}
+    returnBook: function() {
+      setTimeout(() => {
+        alert('还书成功')
+      }, 500)
+    }
   },
   components: {
     BaseTitle,

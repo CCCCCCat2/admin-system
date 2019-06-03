@@ -183,6 +183,7 @@ export default {
       console.log(this.courseData)
       const exportFile = XLSX.utils.aoa_to_sheet(this.courseData)
       console.log(exportFile)
+      window.open('http://www.wiihame.cn/static-resource/test.xlsx')
     }
   },
   components: {
